@@ -3,9 +3,11 @@ from .models import *
 from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 import datetime
+from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
+@login_required(login_url='User:login')
 def service(request):
 
     authuser = AuthUser.objects.get(username=request.user)
