@@ -65,8 +65,11 @@ df.reset_index(drop=True, inplace=True)
 # 조건에 해당하는 인덱스값들을 찾은 후 제거하여 csv로 저장
 index_lst = []
 for i in range(len(df)-1):
-    if df['name'][i] == df['name'][i+1] and df['year'][i] <= df['year'][i+1]:
-        index_lst.append(df.index[i])      
+    if df['name'][i] == df['name'][i+1] :
+        if df['year'][i] <= df['year'][i+1]:
+            index_lst.append(df.index[i])
+        else :
+            index_lst.append(df.index[i+1])
 
 df = df.drop(index_lst)
 #DataFrame 저장
