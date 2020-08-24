@@ -21,16 +21,10 @@ def service(request):
     print(type(baseDate))
 
     todayTable = (UserTable.objects.all()).filter(
-            date__day=baseDate.day, authuser_id=authuser)
+            date=baseDate, authuser_id=authuser)
 
     weekTable = (UserTable.objects.all()).filter(
-           date_1__range=[baseDate + datetime.timedelta(days=-6), baseDate + datetime.timedelta(days=0)], authuser_id=authuser)
-    ########### session test ##########
-    # session_test = request.session.session_key
-    # if session_test == None:
-    #     raise PermissionDenied
-    # else:
-    #     pass
+           date__range=[baseDate + datetime.timedelta(days=-6), baseDate + datetime.timedelta(days=0)], authuser_id=authuser)
 
     if request.method == 'POST':
         #체크박스로 여러개 찍어온 데이터 객체들을 리스트 안에 저장
@@ -139,13 +133,13 @@ def getDate(request):
         print(type(baseDate3))
 
         todayTable = (UserTable.objects.all()).filter(
-            date_1=baseDate3, authuser_id=authuser)
+            date=baseDate3, authuser_id=authuser)
         weekTable = (UserTable.objects.all()).filter(
-           date_1__range=[baseDate3 + datetime.timedelta(days=-6), baseDate3 + datetime.timedelta(days=0)], authuser_id=authuser)
+           date__range=[baseDate3 + datetime.timedelta(days=-6), baseDate3 + datetime.timedelta(days=0)], authuser_id=authuser)
 
         # todayTable = (UserTable.objects.all()).filter(authuser_id=authuser)
         # weekTable = (UserTable.objects.all()).filter(authuser_id=authuser)
         context = get_list_or_404(UserTable, authuser=authuser)
         # return render(request, 'service.html',{'select_food': context, 'todayTable': todayTable, 'weekTable': weekTable, 'baseDate': baseDate})
         return render(request, 'service_test.html', {'select_food': context, 'todayTable': todayTable, 'weekTable': weekTable, 'baseDate':baseDate})
-        # return render(request, 'service_test.html', {"baseDate":baseDate})
+        return render(request, 'service_test.html', {"baseDate":baseDate})

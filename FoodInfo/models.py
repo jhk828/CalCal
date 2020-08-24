@@ -44,7 +44,7 @@ class UserTable(models.Model):
     fat = models.FloatField('지방')
     company = models.TextField('회사명', max_length=30)
     amount = models.FloatField('섭취량', default=1)
-    date = models.DateTimeField('날짜', default=datetime.now, blank=True)
-    date_1 = models.DateField('날짜2', default=datetime.now().strftime('%Y-%m-%d'), blank=True)
+    # date = models.DateTimeField('날짜', default=datetime.now, blank=True)
+    date = models.DateField('날짜', default=datetime.now().strftime('%Y-%m-%d'), blank=True)
     def __str__(self):
         return self.name
