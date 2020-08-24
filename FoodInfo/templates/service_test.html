@@ -49,13 +49,35 @@
         fatData = fatData + {{ todayFood.fat }}
     {% endfor %}
 
-    {% for weekFood in weekTable %}
-        kcalWeekArray[{{weekFood.date.weekday}}] += {{ weekFood.kcal }}
+    var weekDays = [];
+    weekDays[6] = baseDate.getMonth() + 1 + "/" + baseDate.getDate();
+
+    for (var i = 0; i < 6; i++) {
+	  baseDate.setDate(baseDate.getDate() - 1);
+	  weekDays[5 - i] = baseDate.getMonth() + 1 + "/" + baseDate.getDate();
+    }
+
+	console.log("weekDays!!");
+	console.log(weekDays);
+
+	var calDict = {};
+	for (var i = 0; i < weekDays.length; i++) {
+		calDict[weekDays[i]] = 0;
+	}
+
+	 {% for weekFood in weekTable %}
+       console.log(String( {{ weekFood.date.month }} ) + "/" + String( {{ weekFood.date.day }}));
+     if (calDict.hasOwnProperty(String({{ weekFood.date.month }}) + "/" + String({{ weekFood.date.day }}))) {
+        calDict[String( {{ weekFood.date.month }} ) + "/" + String( {{ weekFood.date.day }})] += {{ weekFood.kcal }};
+     }
     {% endfor %}
 
-     for (var i=0; i<kcalWeekArray.length; i++) {
-              weekData[i] += kcalWeekArray[i]
-     }
+   console.log("calDict");
+   console.log(calDict);
+
+   var weekCal = Object.values(calDict);
+   console.log("weekCal");
+   console.log(weekCal);
 </script>
 	<!-- WRAPPER -->
 	<b id="wrapper">
@@ -223,8 +245,8 @@
 							<button id="Url" onclick="getUrl(this.form)">전송</button>
 							<script>
 								function getUrl(f) {
-									alert("aaa")
-									alert(f)
+									// alert("aaa")
+									// alert(f)
 									var inputDate = String($("#my_date").val())
 									var inputDate2 = Number(inputDate.substring(0,4) + inputDate.substring(5,7) + inputDate.substring(8,10))
 									alert(inputDate2)
@@ -310,12 +332,9 @@
 	<script>
 	$(function() {
 		var data, options;
-
-				var data = {
-			labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-			series: [
-				[200, 380, 350, 320, 410, 450, 570, 400, 555, 620, 750, 900],
-			]
+			var data = {
+				labels: weekDays,
+				series: [weekCal],
 		};
 
 		// line chart
@@ -329,7 +348,6 @@
 		};
 
 		new Chartist.Line('#demo-line-chart', data, options);
-
 
 
 		// 오늘의 섭취 영양소 비율 (파이차트)
@@ -354,4 +372,3 @@
 	</script>
 </body>
 </html>
-
