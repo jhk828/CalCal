@@ -20,6 +20,8 @@
 	<!-- ICONS -->
 	<link rel="apple-touch-icon" sizes="76x76" href="/static/service/img/apple-icon.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="/static/service/img/favicon.png">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
 
 </head>
 <style>
@@ -30,11 +32,10 @@
 }
 </style>
 <body>
-	
 <script>
 	const baseDate = new Date("{{baseDate}}");
 	console.log(baseDate)
-
+	var kcalData = 0
     var carboData = 0
     var proteinData = 0
     var fatData = 0
@@ -42,6 +43,7 @@
     var weekData = [0, 0, 0, 0, 0, 0, 0]
 
     {% for todayFood in todayTable %}
+    	kcalData = kcalData + {{ todayFood.kcal }}
         carboData = carboData + {{ todayFood.carbo }}
         proteinData = proteinData + {{ todayFood.protein }}
         fatData = fatData + {{ todayFood.fat }}
@@ -54,7 +56,6 @@
      for (var i=0; i<kcalWeekArray.length; i++) {
               weekData[i] += kcalWeekArray[i]
      }
-
 </script>
 	<!-- WRAPPER -->
 	<b id="wrapper">
@@ -159,11 +160,10 @@
 									<div class="metric">
 										<span class="icon"><i class="fa fa-download"></i></span>
 										<p>
-											<span class="number"><script>document.write(Math.max.apply(null, kcalWeekArray))</script></span>
+											<span class="number"><script>document.write(kcalData.toFixed(2))</script></span>
 											<span class="title">칼로리</span>
 										</p>
 									</div>
-
 								</div>
 								<div class="col-md-3">
 									<div class="metric">
@@ -192,10 +192,29 @@
 										</p>
 									</div>
 								</div>
+									<div class="col-md-9">
+										<div id="demo-line-chart" class="ct-chart"></div>
+									</div>
+									<div class="col-md-3">
+										<div class="panel">
+											<div class="panel-heading">
+												<h3 class="title" style="center;">이번주 섭취 칼로리</h3>
+											</div>
+											<div class="panel-body">
+												<div class="card">
+													<div class="card-body">
+														<canvas id="myChart2"></canvas>
+													</div>
+													<div class="card-footer text-center text-dark">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
-
 					<div>
 						<form id="link" method="POST">
 							{% csrf_token %}
@@ -214,8 +233,7 @@
 								}
 							</script>
 						  </form>
-					  </div> 
-
+					</div>
 					<div class="panel">
 						<div class="panel-heading">
 							<h3 class="panel-title">오늘 먹은 음식</h3>
@@ -240,7 +258,6 @@
 									</tr>
 								</thead>
 								<tbody>
-								
 								{% for food in todayTable %}
 									<tr>
 										<td>{{forloop.counter}}</td>
@@ -269,7 +286,7 @@
 						</div>
 						<div class="panel-footer">
 							<div class="row">
-								<div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> Last 24 hours</span></div>
+								<div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> today </span></div>
 								<div class="col-md-6 text-right"><a href="#" class="btn btn-primary">View All Purchases</a></div>
 							</div>
 						</div>
@@ -284,6 +301,57 @@
 	<script src="/static/service/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
 	<script src="/static/service/vendor/chartist/js/chartist.min.js"></script>
 	<script src="/static/service/scripts/klorofil-common.js"></script>
+	<script>
+		if ( window.history.replaceState ) {
+			window.history.replaceState( null, null, window.location.href );
+		}
+	</script>
 
+	<script>
+	$(function() {
+		var data, options;
+
+				var data = {
+			labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+			series: [
+				[200, 380, 350, 320, 410, 450, 570, 400, 555, 620, 750, 900],
+			]
+		};
+
+		// line chart
+		options = {
+			height: "300px",
+			showPoint: true,
+			axisX: {
+				showGrid: false
+			},
+			lineSmooth: false,
+		};
+
+		new Chartist.Line('#demo-line-chart', data, options);
+
+
+
+		// 오늘의 섭취 영양소 비율 (파이차트)
+		var ctx1 = document.getElementById("myChart2");
+		console.log(ctx1)
+		var myPieChart = new Chart(ctx1, {
+		  type: 'pie',
+
+		  data: {
+			labels: ['탄수화물','단백질','지방'],
+			datasets: [{
+			  backgroundColor: ['SteelBlue','yellow','Skyblue'],
+			  data: [carboData, proteinData, fatData],
+			}]
+		  },
+		  options: {}
+		});
+
+
+
+	});
+	</script>
 </body>
 </html>
+
