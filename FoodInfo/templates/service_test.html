@@ -20,6 +20,8 @@
 	<!-- ICONS -->
 	<link rel="apple-touch-icon" sizes="76x76" href="/static/service/img/apple-icon.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="/static/service/img/favicon.png">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
 
 </head>
 <style>
@@ -33,7 +35,7 @@
 <script>
 	const baseDate = new Date("{{baseDate}}");
 	console.log(baseDate)
-
+	var kcalData = 0
     var carboData = 0
     var proteinData = 0
     var fatData = 0
@@ -41,13 +43,14 @@
     var weekData = [0, 0, 0, 0, 0, 0, 0]
 
     {% for todayFood in todayTable %}
+    	kcalData = kcalData + {{ todayFood.kcal }}
         carboData = carboData + {{ todayFood.carbo }}
         proteinData = proteinData + {{ todayFood.protein }}
         fatData = fatData + {{ todayFood.fat }}
     {% endfor %}
 
     {% for weekFood in weekTable %}
-        kcalWeekArray[{{weekFood.date_1.weekday}}] += {{ weekFood.kcal }}
+        kcalWeekArray[{{weekFood.date.weekday}}] += {{ weekFood.kcal }}
     {% endfor %}
 
      for (var i=0; i<kcalWeekArray.length; i++) {
@@ -157,7 +160,7 @@
 									<div class="metric">
 										<span class="icon"><i class="fa fa-download"></i></span>
 										<p>
-											<span class="number"><script>document.write(Math.max.apply(null, kcalWeekArray))</script></span>
+											<span class="number"><script>document.write(kcalData.toFixed(2))</script></span>
 											<span class="title">칼로리</span>
 										</p>
 									</div>
@@ -194,19 +197,17 @@
 									</div>
 									<div class="col-md-3">
 										<div class="panel">
-
+											<div class="panel-heading">
+												<h3 class="title" style="center;">이번주 섭취 칼로리</h3>
+											</div>
 											<div class="panel-body">
-												<div id="system-load" class="easy-pie-chart" data-percent="70">
-													<span class="percent">70</span>
+												<div class="card">
+													<div class="card-body">
+														<canvas id="myChart2"></canvas>
+													</div>
+													<div class="card-footer text-center text-dark">
+													</div>
 												</div>
-													<h4>CPU Load</h4>
-													<ul class="list-unstyled list-justify">
-														<li>High: <span>95%</span></li>
-														<li>Average: <span>87%</span></li>
-														<li>Low: <span>20%</span></li>
-														<li>Threads: <span>996</span></li>
-														<li>Processes: <span>259</span></li>
-													</ul>
 											</div>
 										</div>
 									</div>
@@ -238,7 +239,7 @@
 									</tr>
 								</thead>
 								<tbody>
-								{% for food in select_food %}
+								{% for food in todayTable %}
 									<tr>
 										<td>{{forloop.counter}}</td>
 										<td>{{food.name}}</td>
@@ -281,6 +282,11 @@
 	<script src="/static/service/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
 	<script src="/static/service/vendor/chartist/js/chartist.min.js"></script>
 	<script src="/static/service/scripts/klorofil-common.js"></script>
+	<script>
+		if ( window.history.replaceState ) {
+			window.history.replaceState( null, null, window.location.href );
+		}
+	</script>
 
 	<script>
 	$(function() {
@@ -306,32 +312,24 @@
 		new Chartist.Line('#demo-line-chart', data, options);
 
 
-		// real-time pie chart
-		var sysLoad = $('#system-load').easyPieChart({
-			size: 130,
-			barColor: function(percent) {
-				return "rgb(" + Math.round(200 * percent / 100) + ", " + Math.round(200 * (1.1 - percent / 100)) + ", 0)";
-			},
-			trackColor: 'rgba(245, 245, 245, 0.8)',
-			scaleColor: false,
-			lineWidth: 5,
-			lineCap: "square",
-			animate: 800
+
+		// 오늘의 섭취 영양소 비율 (파이차트)
+		var ctx1 = document.getElementById("myChart2");
+		console.log(ctx1)
+		var myPieChart = new Chart(ctx1, {
+		  type: 'pie',
+
+		  data: {
+			labels: ['탄수화물','단백질','지방'],
+			datasets: [{
+			  backgroundColor: ['SteelBlue','yellow','Skyblue'],
+			  data: [carboData, proteinData, fatData],
+			}]
+		  },
+		  options: {}
 		});
 
-		var updateInterval = 3000; // in milliseconds
 
-		setInterval(function() {
-			var randomVal;
-			randomVal = getRandomInt(0, 100);
-
-			sysLoad.data('easyPieChart').update(randomVal);
-			sysLoad.find('.percent').text(randomVal);
-		}, updateInterval);
-
-		function getRandomInt(min, max) {
-			return Math.floor(Math.random() * (max - min + 1)) + min;
-		}
 
 	});
 	</script>
