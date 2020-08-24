@@ -48,7 +48,7 @@
     {% endfor %}
 
     {% for weekFood in weekTable %}
-        kcalWeekArray[{{weekFood.date_1.weekday}}] += {{ weekFood.kcal }}
+        kcalWeekArray[{{weekFood.date.weekday}}] += {{ weekFood.kcal }}
     {% endfor %}
 
      for (var i=0; i<kcalWeekArray.length; i++) {
@@ -163,6 +163,7 @@
 											<span class="title">칼로리</span>
 										</p>
 									</div>
+
 								</div>
 								<div class="col-md-3">
 									<div class="metric">
@@ -196,13 +197,24 @@
 					</div>
 
 					<div>
-						<form action="{% url 'FoodInfo:getDate' %}" method="POST">
-						  {% csrf_token %}
-						  <input type="date" placeholder="날짜" id="date" name="getDate" />
-						  	{% csrf_token %}
-						  <button type="submit">전송</button>
-						</form>
-					  </div> 	
+						<form id="link" method="POST">
+							{% csrf_token %}
+							<input type="date" placeholder="날짜" id="my_date" name="getDate" />
+								{% csrf_token %}
+							<button id="Url" onclick="getUrl(this.form)">전송</button>
+							<script>
+								function getUrl(f) {
+									alert("aaa")
+									alert(f)
+									var inputDate = String($("#my_date").val())
+									var inputDate2 = Number(inputDate.substring(0,4) + inputDate.substring(5,7) + inputDate.substring(8,10))
+									alert(inputDate2)
+									f.action = inputDate2
+									f.submit()
+								}
+							</script>
+						  </form>
+					  </div> 
 
 					<div class="panel">
 						<div class="panel-heading">
@@ -275,4 +287,3 @@
 
 </body>
 </html>
-

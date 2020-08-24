@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
 # from urllib.request import urlopen
 # from urllib.parse import urlencode,unquote,quote_plus
 # import urllib
@@ -35,53 +29,34 @@
 #                         item.nutr_cont6.text, item.nutr_cont7.text, item.nutr_cont8.text, item.nutr_cont9.text,
 #                         item.bgn_year.text, item.animal_plant.text]
 #
-# df.to_csv('./food.csv', encoding='cp949')
+# df.to_csv('C:/python-Django/food.csv', encoding='cp949')
+#
+# # 수정
+# data = pd.read_csv('C:/python-Django/food.csv', encoding='cp949')
+# data1 = data.iloc[:,1:7]
+# data1['company'] = data.iloc[:,-1]
+# data1.isnull().sum()
+# data1['company'] = data1['company'].fillna(' ')
+# data1.isnull().sum()
+# data2 = data1.dropna()
+# data2.to_csv('C:/python-Django/food2.csv', encoding='cp949')
 
-import pandas as pd
+# csv to sqlite3
 import sqlite3
+import pandas as pd
 
-# 수정
-data = pd.read_csv('./food.csv', encoding='cp949')
-df = data.iloc[:,1:7]
-df['year'] = data.iloc[:,-2]
-df['company'] = data.iloc[:,-1]
+# load data 경로설정
+df = pd.read_csv('food2.csv', encoding='cp949')
 
-# company 컬럼의 NA 값들을 공백 처리
-df['company'] = data['company'].fillna(' ')
+# strip whitespace from headers
+df.columns = df.columns.str.strip()
 
-# TRACE가 들어간 행 제거
-kcal = df['kcal'] == 'TRACE'
-carbo = df['carbo'] =='TRACE'
-protein = df['protein'] =='TRACE'
-fat = df['fat'] =='TRACE'
-find = df[kcal|carbo|protein|fat].index
-df = df.drop(find)
+con = sqlite3.connect("db.sqlite3")
 
-# df의 NA값 제거 후 인덱스 재설정
-df.isnull().sum()
-df = df.dropna()
-df.reset_index(drop=True, inplace=True)
+# drop data into database
+df.to_sql("Table", con)
 
-# 조건에 해당하는 인덱스값들을 찾은 후 제거하여 csv로 저장
-index_lst = []
-for i in range(len(df)-1):
-    if df['name'][i] == df['name'][i+1] :
-        if df['year'][i] <= df['year'][i+1]:
-            index_lst.append(df.index[i])
-        else :
-            index_lst.append(df.index[i+1])
+con.close()
 
-df = df.drop(index_lst)
-#DataFrame 저장
-df.to_csv('./food_table.csv', encoding='cp949', index=False)
-
-df['id'] = [x for x in range(1,len(df)+1)]
-df = df[['id', 'name', 'serving_wt', 'kcal', 'carbo', 'protein','fat', 'company']]
-conn = sqlite3.connect("db.sqlite3")
-cur = conn.cursor()
-record = df.values.tolist()
-cur.executemany( 'INSERT INTO FoodInfo_table VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
-                record )
-conn.commit()
-conn.close()
-
+# python manage.py inspectdb
+# python manage.py inspectdb > models.py 로 저장

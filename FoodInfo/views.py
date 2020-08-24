@@ -118,16 +118,11 @@ def update(request, food_id):
 
     return redirect('FoodInfo:service')
 
-def getDate(request):
+def getDate(request, inputDate):
     authuser = AuthUser.objects.get(username=request.user)
     if request.method == 'POST':
         baseDate = request.POST.get('getDate','')
-        # baseDate2 = baseDate[0:4]+ "-"+ baseDate[5:7] + "-"+ baseDate[8:10]
-        # baseDate2 = datetime.date0time.strptime(baseDate, '%Y-%m%-d')
         print("=======baseDate=======")
-        baseDate2 = parse(baseDate)
-        print(parse(baseDate))
-        print(type(baseDate2))
         baseDate3=datetime.datetime.strptime(baseDate, "%Y-%m-%d").date()
         print(baseDate3)
         print(type(baseDate3))
@@ -137,9 +132,7 @@ def getDate(request):
         weekTable = (UserTable.objects.all()).filter(
            date__range=[baseDate3 + datetime.timedelta(days=-6), baseDate3 + datetime.timedelta(days=0)], authuser_id=authuser)
 
-        # todayTable = (UserTable.objects.all()).filter(authuser_id=authuser)
-        # weekTable = (UserTable.objects.all()).filter(authuser_id=authuser)
         context = get_list_or_404(UserTable, authuser=authuser)
         # return render(request, 'service.html',{'select_food': context, 'todayTable': todayTable, 'weekTable': weekTable, 'baseDate': baseDate})
         return render(request, 'service_test.html', {'select_food': context, 'todayTable': todayTable, 'weekTable': weekTable, 'baseDate':baseDate})
-        return render(request, 'service_test.html', {"baseDate":baseDate})
+        # return render(request, 'service_test.html', {"baseDate":baseDate})
