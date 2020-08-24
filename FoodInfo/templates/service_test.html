@@ -30,7 +30,11 @@
 }
 </style>
 <body>
+	
 <script>
+	const baseDate = new Date("{{baseDate}}");
+	console.log(baseDate)
+
     var carboData = 0
     var proteinData = 0
     var fatData = 0
@@ -190,6 +194,16 @@
 							</div>
 						</div>
 					</div>
+
+					<div>
+						<form action="{% url 'FoodInfo:getDate' %}" method="POST">
+						  {% csrf_token %}
+						  <input type="date" placeholder="날짜" id="date" name="getDate" />
+						  	{% csrf_token %}
+						  <button type="submit">전송</button>
+						</form>
+					  </div> 	
+
 					<div class="panel">
 						<div class="panel-heading">
 							<h3 class="panel-title">오늘 먹은 음식</h3>

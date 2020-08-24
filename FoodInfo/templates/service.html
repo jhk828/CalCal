@@ -2,13 +2,13 @@
 {% block content %}
 <h1>서비스</h1>
 
+
 <!-- 차트 그리기 -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-
 
 <form action="{% url 'FoodInfo:search' %}" method="POST" >
   {% csrf_token %}
@@ -17,7 +17,6 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
          name="q" value="{{ q }}">
   <a href="{% url 'FoodInfo:search' %}"><button type="submit">Search</button></a>
 </form>
-
 
 <br><br>
 <table>
@@ -62,7 +61,19 @@ integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw
     </tbody>
 </table>
 
+<div>
+  <form action="{% url 'FoodInfo:getDate'%}" method="POST">
+    {% csrf_token %}
+    <input type="date" placeholder="날짜" id="date" name="getDate" />
+      {% csrf_token %}
+    <button type="submit">전송</button>
+  </form>
+</div>
+
 <script>
+    const baseDate = new Date("{{baseDate}}");
+    console.log(baseDate)
+
     var carboData = 0
     var proteinData = 0
     var fatData = 0

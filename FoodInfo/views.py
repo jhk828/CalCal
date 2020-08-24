@@ -4,6 +4,8 @@ from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 import datetime
 from django.contrib.auth.decorators import login_required
+from django.utils.dateformat import DateFormat
+from dateutil.parser import parse
 
 
 # Create your views here.
@@ -12,22 +14,23 @@ def service(request):
 
     authuser = AuthUser.objects.get(username=request.user)
     # 차트
-    today = datetime.date.today()
+    # today-> baseDate 변수명 변경
+    baseDate = datetime.date.today()
+    print("=====================baseDate in service()=====================")
+    print(baseDate)
+    print(type(baseDate))
+
     todayTable = (UserTable.objects.all()).filter(
-            date__day=today.day, authuser_id=authuser)
+            date__day=baseDate.day, authuser_id=authuser)
 
     weekTable = (UserTable.objects.all()).filter(
-           date_1__range=[today + datetime.timedelta(days=-6), today + datetime.timedelta(days=0)], authuser_id=authuser)
-
-    print(today + datetime.timedelta(days=0))
-    print(weekTable)
+           date_1__range=[baseDate + datetime.timedelta(days=-6), baseDate + datetime.timedelta(days=0)], authuser_id=authuser)
     ########### session test ##########
     # session_test = request.session.session_key
     # if session_test == None:
     #     raise PermissionDenied
     # else:
     #     pass
-
 
     if request.method == 'POST':
         #체크박스로 여러개 찍어온 데이터 객체들을 리스트 안에 저장
@@ -44,15 +47,16 @@ def service(request):
             usertable.save()
 
         context = get_list_or_404(UserTable, authuser=authuser)
-        return render(request, 'service_test.html', {'select_food': context, 'todayTable': todayTable, 'weekTable': weekTable})
+        return render(request, 'service_test.html', {'select_food': context, 'todayTable': todayTable, 'weekTable': weekTable, 'baseDate':baseDate})
 
     else:
+        baseDate = datetime.date.today()
         try :
             authuser = AuthUser.objects.get(username=request.user)
             context = get_list_or_404(UserTable, authuser=authuser)
-            return render(request, 'service_test.html', {'select_food': context, 'todayTable': todayTable, 'weekTable': weekTable})
+            return render(request, 'service_test.html', {'select_food': context, 'todayTable': todayTable, 'weekTable': weekTable, 'baseDate':baseDate})
         except:
-            return render(request, 'service_test.html', {'todayTable': todayTable, 'weekTable': weekTable})
+            return render(request, 'service_test.html', {'todayTable': todayTable, 'weekTable': weekTable, 'baseDate':baseDate})
 
 
 def search(request):
@@ -119,3 +123,29 @@ def update(request, food_id):
         usertable.save()
 
     return redirect('FoodInfo:service')
+
+def getDate(request):
+    authuser = AuthUser.objects.get(username=request.user)
+    if request.method == 'POST':
+        baseDate = request.POST.get('getDate','')
+        # baseDate2 = baseDate[0:4]+ "-"+ baseDate[5:7] + "-"+ baseDate[8:10]
+        # baseDate2 = datetime.date0time.strptime(baseDate, '%Y-%m%-d')
+        print("=======baseDate=======")
+        baseDate2 = parse(baseDate)
+        print(parse(baseDate))
+        print(type(baseDate2))
+        baseDate3=datetime.datetime.strptime(baseDate, "%Y-%m-%d").date()
+        print(baseDate3)
+        print(type(baseDate3))
+
+        todayTable = (UserTable.objects.all()).filter(
+            date_1=baseDate3, authuser_id=authuser)
+        weekTable = (UserTable.objects.all()).filter(
+           date_1__range=[baseDate3 + datetime.timedelta(days=-6), baseDate3 + datetime.timedelta(days=0)], authuser_id=authuser)
+
+        # todayTable = (UserTable.objects.all()).filter(authuser_id=authuser)
+        # weekTable = (UserTable.objects.all()).filter(authuser_id=authuser)
+        context = get_list_or_404(UserTable, authuser=authuser)
+        # return render(request, 'service.html',{'select_food': context, 'todayTable': todayTable, 'weekTable': weekTable, 'baseDate': baseDate})
+        return render(request, 'service_test.html', {'select_food': context, 'todayTable': todayTable, 'weekTable': weekTable, 'baseDate':baseDate})
+        # return render(request, 'service_test.html', {"baseDate":baseDate})
