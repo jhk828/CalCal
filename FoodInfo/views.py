@@ -4,15 +4,15 @@ from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 import datetime
 from django.contrib.auth.decorators import login_required
-from django.utils.dateformat import DateFormat
-from dateutil.parser import parse
+
+
 
 
 # Create your views here.
 @login_required(login_url='User:login')
 def service(request):
 
-    authuser = AuthUser.objects.get(username=request.user)
+    authuser = User.objects.get(username=request.user)
     # 차트
     # today-> baseDate 변수명 변경
     baseDate = datetime.date.today()
@@ -28,7 +28,7 @@ def service(request):
 
     if request.method == 'POST':
         #체크박스로 여러개 찍어온 데이터 객체들을 리스트 안에 저장
-        authuser = AuthUser.objects.get(username=request.user)
+        authuser = User.objects.get(username=request.user)
         get_list = request.POST.getlist('val_id')
         context = []
 
@@ -46,7 +46,7 @@ def service(request):
     else:
         baseDate = datetime.date.today()
         try :
-            authuser = AuthUser.objects.get(username=request.user)
+            authuser = User.objects.get(username=request.user)
             context = get_list_or_404(UserTable, authuser=authuser)
             return render(request, 'service_test.html', {'select_food': context, 'todayTable': todayTable, 'weekTable': weekTable, 'baseDate':baseDate})
         except:
@@ -119,7 +119,7 @@ def update(request, food_id):
     return redirect('FoodInfo:service')
 
 def getDate(request, inputDate):
-    authuser = AuthUser.objects.get(username=request.user)
+    authuser = User.objects.get(username=request.user)
     if request.method == 'POST':
         baseDate = request.POST.get('getDate','')
         print("=======baseDate=======")
