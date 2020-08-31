@@ -20,7 +20,8 @@
 	<!-- ICONS -->
 	<link rel="apple-touch-icon" sizes="76x76" href="/static/service/img/apple-icon.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="/static/service/img/favicon.png">
-	<script src="/static/js/button.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
 
 </head>
 <style>
@@ -32,26 +33,51 @@
 </style>
 <body>
 <script>
+	const specificDate = new Date("{{specificDate}}");
+	console.log(specificDate)
+	var kcalData = 0
     var carboData = 0
     var proteinData = 0
     var fatData = 0
     var kcalWeekArray = new Array(0, 0, 0, 0, 0, 0, 0);
     var weekData = [0, 0, 0, 0, 0, 0, 0]
 
-    {% for todayFood in todayTable %}
-        carboData = carboData + {{ todayFood.carbo }}
-        proteinData = proteinData + {{ todayFood.protein }}
-        fatData = fatData + {{ todayFood.fat }}
+    {% for ThatDayFood in ThatDayTable %}
+    	kcalData = kcalData + {{ ThatDayFood.kcal }}
+        carboData = carboData + {{ ThatDayFood.carbo }}
+        proteinData = proteinData + {{ ThatDayFood.protein }}
+        fatData = fatData + {{ ThatDayFood.fat }}
     {% endfor %}
 
-    {% for weekFood in weekTable %}
-        kcalWeekArray[{{weekFood.date_1.weekday}}] += {{ weekFood.kcal }}
-    {% endfor %}
+    var weekDays = [];
+    weekDays[6] = specificDate.getMonth() + 1 + "/" + specificDate.getDate();
 
-     for (var i=0; i<kcalWeekArray.length; i++) {
-              weekData[i] += kcalWeekArray[i]
+    for (var i = 0; i < 6; i++) {
+	  specificDate.setDate(specificDate.getDate() - 1);
+	  weekDays[5 - i] = specificDate.getMonth() + 1 + "/" + specificDate.getDate();
+    }
+
+	console.log("weekDays!!");
+	console.log(weekDays);
+
+	var calDict = {};
+	for (var i = 0; i < weekDays.length; i++) {
+		calDict[weekDays[i]] = 0;
+	}
+
+	 {% for weekFood in weekTable %}
+       console.log(String( {{ weekFood.date.month }} ) + "/" + String( {{ weekFood.date.day }}));
+     if (calDict.hasOwnProperty(String({{ weekFood.date.month }}) + "/" + String({{ weekFood.date.day }}))) {
+        calDict[String( {{ weekFood.date.month }} ) + "/" + String( {{ weekFood.date.day }})] += {{ weekFood.kcal }};
      }
+    {% endfor %}
 
+   console.log("calDict");
+   console.log(calDict);
+
+   var weekCal = Object.values(calDict);
+   console.log("weekCal");
+   console.log(weekCal);
 </script>
 	<!-- WRAPPER -->
 	<b id="wrapper">
@@ -65,11 +91,13 @@
 				<div class="navbar-btn">
 					<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
 				</div>
-				<form class="navbar-form navbar-left" action="{% url 'FoodInfo:search' %}" method="POST">
+				<form class="navbar-form navbar-left" action="{% url 'FoodInfo:searchByDate' urlDate %}" method="POST">
 					  {% csrf_token %}
 					<div class="input-group">
 						<input type="search" value="{{ q }}" class="form-control" placeholder="Search" name="q" >
-						<span class="input-group-btn"><button type="submit" class="btn btn-primary">Go</button></span>
+						<input type="hidden" value="{{ specificDate }}" name="specificDate"></input>
+						<span class="input-group-btn">
+						<button type="submit" class="btn btn-primary">Go</button></span>
 					</div>
 				</form>
 <!--				<div class="navbar-btn navbar-btn-right">-->
@@ -105,7 +133,7 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/static/service/img/user.png" class="img-circle" alt="Avatar"> <span>{{ user.username }}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
 							<ul class="dropdown-menu">
 								<li><a href="#"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
-								<li><a href="{% url 'User:login' %}"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
+								<li><a href="{% url 'User:logout' %}"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
 							</ul>
 							{% endif %}
 						</li>
@@ -143,23 +171,100 @@
 		<!-- END LEFT SIDEBAR -->
 		<div class="main">
 			<!-- MAIN CONTENT -->
-		<form action="{% url 'FoodInfo:service' %}" method="POST" >
-			{% csrf_token %}
 			<div class="main-content">
 				<div class="container-fluid">
 					<div class="panel panel-headline">
 						<div class="panel-heading">
-							{% if not table_pages %}
-							<h3 class="panel-title">검색 결과가 없습니다.</h3>
-							{% else %}
-							<h3 class="panel-title">{{ q }} 에 대한 검색 결과</h3>
-							<h3>{{ baseDate }}</h3>
-							<input type="hidden" value="{{ baseDate }}" name="baseDate">
+							<h3 class="panel-title">Weekly Overview</h3>
+							<p class="panel-subtitle">Period: Oct 14, 2016 - Oct 21, 2016</p>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-3">
+									<div class="metric">
+										<span class="icon"><i class="fa fa-download"></i></span>
+										<p>
+											<span class="number"><script>document.write(kcalData.toFixed(2))</script></span>
+											<span class="title">칼로리</span>
+										</p>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="metric">
+										<span class="icon"><i class="fa fa-shopping-bag"></i></span>
+										<p>
+											<span class="number"><script>document.write(carboData.toFixed(2))</script></span>
+											<span class="title">탄수화물</span>
+										</p>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="metric">
+										<span class="icon"><i class="fa fa-eye"></i></span>
+										<p>
+											<span class="number"><script>document.write(proteinData.toFixed(2))</script></span>
+											<span class="title">단백질</span>
+										</p>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="metric">
+										<span class="icon"><i class="fa fa-bar-chart"></i></span>
+										<p>
+											<span class="number"><script>document.write(fatData.toFixed(2))</script></span>
+											<span class="title">지방</span>
+										</p>
+									</div>
+								</div>
+									<div class="col-md-9">
+										<div id="demo-line-chart" class="ct-chart"></div>
+									</div>
+									<div class="col-md-3">
+										<div class="panel">
+											<div class="panel-heading">
+												<h3 class="title" style="center;">이번주 섭취 칼로리</h3>
+											</div>
+											<div class="panel-body">
+												<div class="card">
+													<div class="card-body">
+														<canvas id="myChart2"></canvas>
+													</div>
+													<div class="card-footer text-center text-dark">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div>
+						<form id="link" method="POST">
+							{% csrf_token %}
+							<input type="date" placeholder="날짜" id="my_date" name="getDate" />
+								{% csrf_token %}
+							<button id="Url" onclick="getUrl(this.form)">전송</button>
+							<script>
+								function getUrl(f) {
+									// alert("aaa")
+									// alert(f)
+									var inputDate = String($("#my_date").val())
+									var inputDate2 = Number(inputDate.substring(0,4) + inputDate.substring(5,7) + inputDate.substring(8,10))
+									// alert(inputDate2)
+									f.action = inputDate2
+									f.submit()
+								}
+							</script>
+						  </form>
+					</div>
+					<div class="panel">
+						<div class="panel-heading">
+							<h3 class="panel-title">오늘 먹은 음식</h3>
 							<div class="right">
 								<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
 							</div>
 						</div>
-
 						<div class="panel-body no-padding">
 							<table class="table table-striped">
 								<thead>
@@ -171,21 +276,32 @@
 										<th>탄수화물</th>
 										<th>단백질</th>
 										<th>지방</th>
+										<th>섭취량</th>
+										<th>#</th>
 										<th>#</th>
 									</tr>
 								</thead>
 								<tbody>
-								{% for table in tables.all %}
+								{% for food in ThatDayTable %}
 									<tr>
-										<td><input type="checkbox" name="val_id" value="{{ table.id }}"></td>
-										<td>{{table.name}}</td>
-										<td>{{table.serving_wt}}</td>
-										<td>{{table.kcal}}</td>
-										<td>{{table.carbo}}</td>
-										<td>{{table.protein}}</td>
-										<td>{{table.fat}}</td>
+										<td>{{forloop.counter}}</td>
+										<td>{{food.name}}</td>
+										<td>{{food.serving_wt}}</td>
+										<td>{{food.kcal}}</td>
+										<td>{{food.carbo}}</td>
+										<td>{{food.protein}}</td>
+										<td>{{food.fat}}</td>
+										<td>{{food.amount}}</td>
 										<td>
-											#
+											<a href="{% url 'FoodInfo:deleteByDate' urlDate food.id %}" class="btn btn-danger">삭제</a>
+										</td>
+										<td>
+											<form action="{% url 'FoodInfo:update' food.id %}" method="POST" >
+												{% csrf_token %}
+												<input type="number" name="count"
+															   placeholder="1.0" step="0.1" min="0">
+												<input type="submit" value="양 설정">
+											</form>
 										</td>
 									</tr>
 								{% endfor %}
@@ -194,26 +310,67 @@
 						</div>
 						<div class="panel-footer">
 							<div class="row">
-								<div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> Last 24 hours</span></div>
-								<div class="col-md-6 text-right"><input type="submit" class="btn btn-primary" value="보내기"></div>
+								<div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> today </span></div>
+								<div class="col-md-6 text-right"><a href="#" class="btn btn-primary">View All Purchases</a></div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</form>
-	</div>
-
+		</div>
     </b>
-    {% endif %}
-
 	<script src="/static/service/vendor/jquery/jquery.min.js"></script>
 	<script src="/static/service/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="/static/service/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="/static/service/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
 	<script src="/static/service/vendor/chartist/js/chartist.min.js"></script>
 	<script src="/static/service/scripts/klorofil-common.js"></script>
+	<script>
+		if ( window.history.replaceState ) {
+			window.history.replaceState( null, null, window.location.href );
+		}
+	</script>
 
+	<script>
+	$(function() {
+		var data, options;
+			var data = {
+				labels: weekDays,
+				series: [weekCal],
+		};
+
+		// line chart
+		options = {
+			height: "300px",
+			showPoint: true,
+			axisX: {
+				showGrid: false
+			},
+			lineSmooth: false,
+		};
+
+		new Chartist.Line('#demo-line-chart', data, options);
+
+
+		// 오늘의 섭취 영양소 비율 (파이차트)
+		var ctx1 = document.getElementById("myChart2");
+		console.log(ctx1)
+		var myPieChart = new Chart(ctx1, {
+		  type: 'pie',
+
+		  data: {
+			labels: ['탄수화물','단백질','지방'],
+			datasets: [{
+			  backgroundColor: ['SteelBlue','yellow','Skyblue'],
+			  data: [carboData, proteinData, fatData],
+			}]
+		  },
+		  options: {}
+		});
+
+
+
+	});
+	</script>
 </body>
 </html>
-

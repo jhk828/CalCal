@@ -95,7 +95,9 @@
 					  {% csrf_token %}
 					<div class="input-group">
 						<input type="search" value="{{ q }}" class="form-control" placeholder="Search" name="q" >
-						<span class="input-group-btn"><button type="submit" class="btn btn-primary">Go</button></span>
+						<input type="hidden" value="{{ baseDate }}" name="baseDate"></input>
+						<span class="input-group-btn">
+						<button type="submit" class="btn btn-primary">Go</button></span>
 					</div>
 				</form>
 <!--				<div class="navbar-btn navbar-btn-right">-->
@@ -249,7 +251,7 @@
 									// alert(f)
 									var inputDate = String($("#my_date").val())
 									var inputDate2 = Number(inputDate.substring(0,4) + inputDate.substring(5,7) + inputDate.substring(8,10))
-									alert(inputDate2)
+									// alert(inputDate2)
 									f.action = inputDate2
 									f.submit()
 								}

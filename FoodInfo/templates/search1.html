@@ -143,7 +143,7 @@
 		<!-- END LEFT SIDEBAR -->
 		<div class="main">
 			<!-- MAIN CONTENT -->
-		<form action="{% url 'FoodInfo:service' %}" method="POST" >
+		<form action="{% url 'FoodInfo:serviceByDate' urlDate %}" method="POST" >
 			{% csrf_token %}
 			<div class="main-content">
 				<div class="container-fluid">
@@ -153,8 +153,8 @@
 							<h3 class="panel-title">검색 결과가 없습니다.</h3>
 							{% else %}
 							<h3 class="panel-title">{{ q }} 에 대한 검색 결과</h3>
-							<h3>{{ baseDate }}</h3>
-							<input type="hidden" value="{{ baseDate }}" name="baseDate">
+							<h3>{{ specificDate }}</h3>
+							<input type="hidden" value="{{ specificDate }}" name="specificDate">
 							<div class="right">
 								<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
 							</div>
