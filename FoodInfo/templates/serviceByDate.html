@@ -32,53 +32,70 @@
 }
 </style>
 <body>
-<script>
-	const DateforChart = new Date("{{DateforChart}}");
-	console.log(DateforChart)
-	var kcalData = 0
-    var carboData = 0
-    var proteinData = 0
-    var fatData = 0
-    var kcalWeekArray = new Array(0, 0, 0, 0, 0, 0, 0);
-    var weekData = [0, 0, 0, 0, 0, 0, 0]
+	<script>
+		const DateforChart = new Date("{{DateforChart}}");
+		console.log(DateforChart)
+		var kcalData = 0
+		var carboData = 0
+		var proteinData = 0
+		var fatData = 0
+		var weekData = [0, 0, 0, 0, 0, 0, 0]
 
-    {% for ThatDayFood in ThatDayTable %}
-    	kcalData = kcalData + {{ ThatDayFood.kcal }}
-        carboData = carboData + {{ ThatDayFood.carbo }}
-        proteinData = proteinData + {{ ThatDayFood.protein }}
-        fatData = fatData + {{ ThatDayFood.fat }}
-    {% endfor %}
+		{% for ThatDayFood in ThatDayTable %}
+			kcalData = kcalData + {{ ThatDayFood.kcal }}
+			carboData = carboData + {{ ThatDayFood.carbo }}
+			proteinData = proteinData + {{ ThatDayFood.protein }}
+			fatData = fatData + {{ ThatDayFood.fat }}
+		{% endfor %}
 
-    var weekDays = [];
-    weekDays[6] = DateforChart.getMonth() + 1 + "/" + DateforChart.getDate();
+		var weekDays = [];
+		weekDays[6] = DateforChart.getMonth() + 1 + "/" + DateforChart.getDate();
 
-    for (var i = 0; i < 6; i++) {
-	  DateforChart.setDate(DateforChart.getDate() - 1);
-	  weekDays[5 - i] = DateforChart.getMonth() + 1 + "/" + DateforChart.getDate();
-    }
+		for (var i = 0; i < 6; i++) {
+		  DateforChart.setDate(DateforChart.getDate() - 1);
+		  weekDays[5 - i] = DateforChart.getMonth() + 1 + "/" + DateforChart.getDate();
+		}
 
-	console.log("weekDays!!");
-	console.log(weekDays);
+		console.log("weekDays: " , weekDays);
 
-	var calDict = {};
-	for (var i = 0; i < weekDays.length; i++) {
-		calDict[weekDays[i]] = 0;
-	}
+		var calDict = {};
+		for (var i = 0; i < weekDays.length; i++) {
+			calDict[weekDays[i]] = 0;
+		}
 
-	 {% for weekFood in weekTable %}
-       console.log(String( {{ weekFood.date.month }} ) + "/" + String( {{ weekFood.date.day }}));
-     if (calDict.hasOwnProperty(String({{ weekFood.date.month }}) + "/" + String({{ weekFood.date.day }}))) {
-        calDict[String( {{ weekFood.date.month }} ) + "/" + String( {{ weekFood.date.day }})] += {{ weekFood.kcal }};
-     }
-    {% endfor %}
+		 {% for weekFood in weekTable %}
+		   console.log(String( {{ weekFood.date.month }} ) + "/" + String( {{ weekFood.date.day }}));
+		 if (calDict.hasOwnProperty(String({{ weekFood.date.month }}) + "/" + String({{ weekFood.date.day }}))) {
+			calDict[String( {{ weekFood.date.month }} ) + "/" + String( {{ weekFood.date.day }})] += {{ weekFood.kcal }};
+		 }
+		{% endfor %}
 
-   console.log("calDict");
-   console.log(calDict);
+	   console.log("calDict: ", calDict);
 
-   var weekCal = Object.values(calDict);
-   console.log("weekCal");
-   console.log(weekCal);
-</script>
+	   var weekCal = Object.values(calDict);
+	   console.log("weekCal : ", weekCal);
+
+	    console.log("gender", "{{authuser.gender}}")
+		console.log("age", "{{authuser.age}}")
+		console.log("height", "{{authuser.height}}")
+		console.log("weight", "{{authuser.weight}}")
+
+		var gender = "{{authuser.gender}}"
+		var age = "{{authuser.age}}"
+		var height = "{{authuser.height}}"
+		var weight = "{{authuser.weight}}"
+
+		if (gender == 1) {
+				var targetKCal = 66.7 + (13.75 * weight) + (5 * height) - (6.76 * age)
+
+		}
+		else if (gender == 0) {
+			var targetKCal = 665.1 + (9.56 * weight) + (1.85 * height) - (4.68 * age)
+		}
+		var message = "권장 칼로리 " + targetKCal + "의 " +((kcalData/targetKCal)*100).toFixed(2) + "%를 섭취"
+		alert(message)
+
+	</script>
 	<!-- WRAPPER -->
 	<b id="wrapper">
 		<!-- NAVBAR -->
@@ -177,9 +194,46 @@
 					<div class="panel panel-headline">
 						<div class="panel-heading">
 							<h3 class="panel-title">Weekly Overview</h3>
-							<p class="panel-subtitle">Period: Oct 14, 2016 - Oct 21, 2016</p>
+							<script>var period = weekDays[0] + " ~ " + weekDays[6]</script>
+							<p class="panel-subtitle">Period: <script>document.write(period)</script></p>
 						</div>
 						<div class="panel-body">
+
+							<div class="row">
+								<div class="col-md-3">
+									<div class="metric">
+										<p>
+											<span class="number"><script>document.write(targetKCal)</script></span>
+											<span class="title">권장 섭취 칼로리</span>
+										</p>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="metric">
+										<p>
+											<span class="number"><script>document.write(((kcalData/targetKCal)*100).toFixed(2) + "%")</script></span>
+											<span class="title">섭취한 칼로리 비율</span>
+										</p>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="panel">
+											<div class="panel-heading">
+												<h3 class="title" style="center;">섭취 칼로리 비율</h3>
+											</div>
+											<div class="panel-body">
+												<div class="card">
+													<div class="card-body">
+														<canvas id="myChart3"></canvas>
+													</div>
+													<div class="card-footer text-center text-dark">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+							</div>
+
 							<div class="row">
 								<div class="col-md-3">
 									<div class="metric">
@@ -236,50 +290,10 @@
 											</div>
 										</div>
 									</div>
-									<div class="col-md-3">
-										<div class="panel">
-											<div class="panel-heading">
-												<h3 class="title" style="center;">칼로리 비율</h3>
-											</div>
-											<div class="panel-body">
-												<div class="card">
-													<div class="card-body">
-														<canvas id="myChart3"></canvas>
-													</div>
-													<div class="card-footer text-center text-dark">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-
-				<script>
-						console.log("gender", "{{authuser.gender}}")
-						console.log("age", "{{authuser.age}}")
-						console.log("height", "{{authuser.height}}")
-						console.log("weight", "{{authuser.weight}}")
-
-						var gender = "{{authuser.gender}}"
-						var age = "{{authuser.age}}"
-						var height = "{{authuser.height}}"
-						var weight = "{{authuser.weight}}"
-
-						if (gender == 1) {
-							var targetKCal = 66.7 + (13.75 * weight) + (5 * height) - (6.76 * age)
-
-						}
-						else if (gender == 0) {
-							var targetKCal = 665.1 + (9.56 * weight) + (1.85 * height) - (4.68 * age)
-						}
-						var message = "권장 칼로리 " + targetKCal + "의 " +((kcalData/targetKCal)*100).toFixed(2) + "%를 섭취"
-						alert(message)
-					</script>
-					<h3><script>document.write(message)</script></h3>
-
 					<div>
 						<form id="link" action="{% url 'FoodInfo:getDate' %}" method="POST">
 							{% csrf_token %}
@@ -397,7 +411,6 @@
 
 		new Chartist.Line('#demo-line-chart', data, options);
 
-
 		// 오늘의 섭취 영양소 비율 (파이차트)
 		var ctx1 = document.getElementById("myChart2");
 		console.log(ctx1)
@@ -414,7 +427,21 @@
 		  options: {}
 		});
 
+		// 칼로리 섭취 비율 (파이차트)
+		var ctx2 = document.getElementById("myChart3");
+		console.log(ctx2)
+		var myPieChart = new Chart(ctx2, {
+		  type: 'pie',
 
+		  data: {
+			labels: ['섭취 칼로리','권장 칼로리'],
+			datasets: [{
+			  backgroundColor: ['yellow','Skyblue'],
+			  data: [kcalData, targetKCal],
+			}]
+		  },
+		  options: {}
+		});
 
 	});
 	</script>
