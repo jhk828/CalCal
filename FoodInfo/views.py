@@ -5,6 +5,7 @@ import datetime
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from User.forms import UserChangeForm
+
 # Create your views here.
 @login_required(login_url='User:login')
 ## service page는 오늘 데이터들을 처리
@@ -285,6 +286,6 @@ def mypage(request):
     baseDate = datetime.date.today()
     todayTable = (UserTable.objects.all()).filter(
             date=baseDate, authuser_id=authuser)
-    return render(request, 'mypage.html', {'todayTable':todayTable})
+    return render(request, 'mypage.html', {'todayTable':todayTable, 'authuser':authuser})
 
 

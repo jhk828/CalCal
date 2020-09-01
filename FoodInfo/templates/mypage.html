@@ -64,51 +64,17 @@
 </style>
 <body>
 <script>
-	const baseDate = new Date("{{baseDate}}");
-	console.log(baseDate)
-	var kcalData = 0
-    var carboData = 0
-    var proteinData = 0
-    var fatData = 0
-    var kcalWeekArray = new Array(0, 0, 0, 0, 0, 0, 0);
-    var weekData = [0, 0, 0, 0, 0, 0, 0]
+	console.log("username", "{{authuser.username}}")
+	console.log("gender", "{{authuser.gender}}")
+	console.log("age", "{{authuser.age}}")
+	console.log("height", "{{authuser.height}}")
+	console.log("weight", "{{authuser.weight}}")
 
-    {% for todayFood in todayTable %}
-    	kcalData = kcalData + {{ todayFood.kcal }}
-        carboData = carboData + {{ todayFood.carbo }}
-        proteinData = proteinData + {{ todayFood.protein }}
-        fatData = fatData + {{ todayFood.fat }}
-    {% endfor %}
-
-    var weekDays = [];
-    weekDays[6] = baseDate.getMonth() + 1 + "/" + baseDate.getDate();
-
-    for (var i = 0; i < 6; i++) {
-	  baseDate.setDate(baseDate.getDate() - 1);
-	  weekDays[5 - i] = baseDate.getMonth() + 1 + "/" + baseDate.getDate();
-    }
-
-	console.log("weekDays!!");
-	console.log(weekDays);
-
-	var calDict = {};
-	for (var i = 0; i < weekDays.length; i++) {
-		calDict[weekDays[i]] = 0;
-	}
-
-	 {% for weekFood in weekTable %}
-       console.log(String( {{ weekFood.date.month }} ) + "/" + String( {{ weekFood.date.day }}));
-     if (calDict.hasOwnProperty(String({{ weekFood.date.month }}) + "/" + String({{ weekFood.date.day }}))) {
-        calDict[String( {{ weekFood.date.month }} ) + "/" + String( {{ weekFood.date.day }})] += {{ weekFood.kcal }};
-     }
-    {% endfor %}
-
-   console.log("calDict");
-   console.log(calDict);
-
-   var weekCal = Object.values(calDict);
-   console.log("weekCal");
-   console.log(weekCal);
+	var username = "{{authuser.username}}"
+	var gender = "{{authuser.gender}}"
+	var age = "{{authuser.age}}"
+	var height = "{{authuser.height}}"
+	var weight = "{{authuser.weight}}"
 </script>
 	<!-- WRAPPER -->
 	<b id="wrapper">
@@ -223,7 +189,7 @@
 									<div class="profile-info">
 										<h4 class="heading">User Info</h4>
 										<ul class="list-unstyled list-justify">
-											<li>age <span>{{ user.height }}</span></li>
+											<li>age <span>{{ user.age }}</span></li>
 											<li>Email <span>{{ user.email }}</span></li>
 											<li>team <span>CalCal</span></li>
 										</ul>
@@ -241,7 +207,7 @@
 										<h4 class="heading">About</h4>
 										<p>Interactively fashion excellent information after distinctive outsourcing.</p>
 									</div>
-									<div class="text-center"><a href="#" class="btn btn-primary">Edit Profile</a></div>
+									<div class="text-center"><a href="/User/update_user/" class="btn btn-primary">Edit Profile</a></div>
 								</div>
 								<!-- END PROFILE DETAIL -->
 							</div>

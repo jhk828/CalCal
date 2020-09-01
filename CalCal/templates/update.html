@@ -1,0 +1,43 @@
+{% load bootstrap4 %}
+
+<h1>User Edit</h1>
+
+<!--<p>{{authuser.username}}</p>-->
+<!--<p>{{authuser.age}}</p>-->
+<!--<br><br>-->
+
+<form action="{% url 'User:update_user' %}" method="POST" >
+    {% csrf_token %}
+
+    <div class="form-group">
+        <label for="id_username">Username</label>
+        <input type="text" name="username" value={{ user.username }} maxlength="40"
+               class="form-control" placeholder="Username" title="" required id="id_username">
+    </div>
+
+    <div class="form-group">
+        <label for="id_email">Email</label>
+        <input type="email" name="email" value={{ user.email }} maxlength="240"
+               class="form-control" placeholder="Email" title="" required id="id_email">
+    </div>
+
+    <div class="form-group">
+        <label for="id_age">Age</label>
+        <input type="text" name="number" value={{ user.age }} maxlength="240"
+               class="form-control" placeholder="Age" title="" required id="id_age">
+    </div>
+
+    <input type="submit" value="Submit"/>
+
+</form>
+
+
+<div class="container">
+    <h1> {{ user.username }}</h1>
+    {% if user.is_authenticated %}
+        <div>
+            <h1> {{ user.username }}</h1>
+        </div>
+    {% endif %}
+
+</div>
