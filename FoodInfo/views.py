@@ -1,19 +1,23 @@
 from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
 from .models import *
-from django.core.exceptions import PermissionDenied
 from django.core.paginator import Paginator
 import datetime
 from django.contrib.auth.decorators import login_required
-from django.utils.dateformat import DateFormat
-from dateutil.parser import parse
 from django.http import HttpResponseRedirect
+
+
+
+
 
 # Create your views here.
 @login_required(login_url='User:login')
 ## service page는 오늘 데이터들을 처리
 def service(request):
 
-    authuser = AuthUser.objects.get(username=request.user)
+    authuser = User.objects.get(username=request.user)
+    # 차트
+    # today-> baseDate 변수명 변경
+
     baseDate = datetime.date.today()
     todayTable = (UserTable.objects.all()).filter(
             date=baseDate, authuser_id=authuser)
@@ -23,7 +27,7 @@ def service(request):
 
     if request.method == 'POST':
         #체크박스로 여러개 찍어온 데이터 객체들을 리스트 안에 저장
-        authuser = AuthUser.objects.get(username=request.user)
+        authuser = User.objects.get(username=request.user)
         get_list = request.POST.getlist('val_id')
         context = []
         # 두 번 이상 검색하려면 baseDate를 datetime에서 str로 변환해줘야 함
@@ -48,7 +52,7 @@ def service(request):
 
         # UserTable에 값이 있을 때
         try :
-            authuser = AuthUser.objects.get(username=request.user)
+            authuser = User.objects.get(username=request.user)
             context = get_list_or_404(UserTable, authuser=authuser)
             return render(request, 'service_test.html', {'select_food': context, 'todayTable': todayTable,
                                                          'weekTable': weekTable, 'baseDate': baseDate})
@@ -126,8 +130,9 @@ def update(request, food_id):
     return redirect('FoodInfo:service')
 
 
-def getDate(request):
-    authuser = AuthUser.objects.get(username=request.user)
+
+def getDate(request, inputDate):
+    authuser = User.objects.get(username=request.user)
 
     if request.method == 'POST':
         getDate = request.POST.get('getDate')  ###
@@ -192,7 +197,7 @@ def getDateSearch(request):
 # 해당 날짜를 받지 못하므로 이 안에서 render 처리
 def deleteByDate(request, food_id):
     #UserTable의 id값을 이용해 해당 레코드를 DB에서 제거
-    authuser = AuthUser.objects.get(username=request.user)
+    authuser = User.objects.get(username=request.user)
     if request.method == 'POST':
         getDate = request.POST.get('getDate')
     delete_record = UserTable.objects.get(id=food_id)
@@ -213,7 +218,7 @@ def deleteByDate(request, food_id):
 # updateByDate는 기존 update처럼 redirect를 쓰면
 # 해당 날짜를 받지 못하므로 이 안에서 render 처리
 def updateByDate(request, food_id):
-    authuser = AuthUser.objects.get(username=request.user)
+    authuser = User.objects.get(username=request.user)
 
     if request.method == 'POST':
         getDate = request.POST.get('getDate')
