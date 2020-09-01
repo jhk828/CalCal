@@ -7,14 +7,13 @@ GENDER_CHOICES = (
 )
 
 class UserManager(BaseUserManager):
-    def create_user(self, username,email, date_of_birth, age, weight, height, gender, password=None):
+    def create_user(self, username,email,  age, weight, height, gender, password=None):
         if not username:
             raise ValueError('Users must have an email address')
 
         user = self.model(
             username=username,
             email=email,
-            date_of_birth=date_of_birth,
             age=age,
             weight=weight,
             height=height,
@@ -25,12 +24,11 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, email, date_of_birth, age, weight, height, gender, password):
+    def create_superuser(self, username, email, age, weight, height, gender, password):
         user = self.create_user(
             username,
             email=email,
             password=password,
-            date_of_birth=date_of_birth,
             age=age,
             weight=weight,
             height=height,
@@ -51,7 +49,6 @@ class User(AbstractBaseUser):
         verbose_name='email',
         max_length=240,
     )
-    date_of_birth = models.DateField()
     age = models.PositiveIntegerField(null=True, blank=True)
     weight = models.PositiveIntegerField(null=True, blank=True)
     height = models.PositiveIntegerField(null=True, blank=True)
@@ -62,7 +59,7 @@ class User(AbstractBaseUser):
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email', 'date_of_birth', 'age', 'gender', 'weight', 'height']
+    REQUIRED_FIELDS = ['email', 'age', 'gender', 'weight', 'height']
 
     def __str__(self):
         return self.username
