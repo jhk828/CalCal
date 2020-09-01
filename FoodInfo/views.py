@@ -7,11 +7,9 @@ from django.contrib.auth.decorators import login_required
 
 
 
-
 # Create your views here.
 @login_required(login_url='User:login')
 def service(request):
-
     authuser = User.objects.get(username=request.user)
     # 차트
     # today-> baseDate 변수명 변경

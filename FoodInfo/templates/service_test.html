@@ -30,6 +30,14 @@
     padding: 15px 10px;
     background-color: #fff;
 }
+	input[type=number] {
+	  line-height: 30px;
+}
+
+	input[type=number]::-webkit-inner-spin-button {
+	  width: 30px;
+	  height: 30px;
+}
 </style>
 <body>
 <script>
@@ -298,7 +306,7 @@
 												{% csrf_token %}
 												<input type="number" name="count"
 															   placeholder="1.0" step="0.1" min="0">
-												<input type="submit" value="양 설정">
+												<input type="submit" value="양 설정" class="btn-primary">
 											</form>
 										</td>
 									</tr>
