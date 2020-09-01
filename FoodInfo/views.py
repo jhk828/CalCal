@@ -12,8 +12,6 @@ from django.http import HttpResponseRedirect
 def service(request):
 
     authuser = User.objects.get(username=request.user)
-    # 차트
-    # today-> baseDate 변수명 변경
 
     baseDate = datetime.date.today()
     todayTable = (UserTable.objects.all()).filter(
@@ -25,6 +23,7 @@ def service(request):
     if request.method == 'POST':
         #체크박스로 여러개 찍어온 데이터 객체들을 리스트 안에 저장
         authuser = User.objects.get(username=request.user)
+
         get_list = request.POST.getlist('val_id')
         context = []
         # 두 번 이상 검색하려면 baseDate를 datetime에서 str로 변환해줘야 함
@@ -40,7 +39,7 @@ def service(request):
             usertable.save()
         context = get_list_or_404(UserTable, authuser=authuser)
         return render(request, 'service.html', {'select_food': context, 'todayTable': todayTable,
-                                                     'weekTable': weekTable, 'baseDate':baseDate})
+                                                     'weekTable': weekTable, 'baseDate':baseDate, 'authuser': authuser})
 
     else:
         #오늘 값을 넘겨줘야 페이지 이동 처리가 가능
@@ -52,11 +51,11 @@ def service(request):
             authuser = User.objects.get(username=request.user)
             context = get_list_or_404(UserTable, authuser=authuser)
             return render(request, 'service.html', {'select_food': context, 'todayTable': todayTable,
-                                                         'weekTable': weekTable, 'baseDate': baseDate})
+                                                         'weekTable': weekTable, 'baseDate': baseDate, 'authuser': authuser})
         # UserTable에 값이 없을 때
         except:
             return render(request, 'service.html', {'todayTable': todayTable, 'weekTable': weekTable,
-                                                         'baseDate': baseDate})
+                                                         'baseDate': baseDate, 'authuser': authuser})
 
 
 def search(request):
@@ -164,11 +163,11 @@ def getDate(request):
                 usertable.save()
             context = get_list_or_404(UserTable, authuser=authuser)
             return render(request, 'serviceByDate.html', {'weekTable': weekTable, 'ThatDayTable': ThatDayTable,
-                                                          'getDate': getDate,'DateforChart': DateforChart})
+                                                          'getDate': getDate,'DateforChart': DateforChart, 'authuser': authuser})
 
         else :
             return render(request, 'serviceByDate.html', {'weekTable': weekTable,'ThatDayTable': ThatDayTable,
-                                                          'getDate': getDate, 'DateforChart': DateforChart})
+                                                          'getDate': getDate, 'DateforChart': DateforChart, 'authuser': authuser})
 
     else :
         next = request.POST.get('next', '/FoodInfo/service/')
@@ -269,4 +268,4 @@ def updateByDate(request, food_id):
                                                  authuser_id=authuser)
 
     return render(request, 'serviceByDate.html', {'weekTable': weekTable, 'ThatDayTable': ThatDayTable,
-                                                  'getDate': getDate, 'DateforChart': DateforChart})
+                                                  'getDate': getDate, 'DateforChart': DateforChart, 'authuser': authuser})

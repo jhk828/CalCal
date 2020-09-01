@@ -236,10 +236,50 @@
 											</div>
 										</div>
 									</div>
+									<div class="col-md-3">
+										<div class="panel">
+											<div class="panel-heading">
+												<h3 class="title" style="center;">칼로리 비율</h3>
+											</div>
+											<div class="panel-body">
+												<div class="card">
+													<div class="card-body">
+														<canvas id="myChart3"></canvas>
+													</div>
+													<div class="card-footer text-center text-dark">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
+
+				<script>
+						console.log("gender", "{{authuser.gender}}")
+						console.log("age", "{{authuser.age}}")
+						console.log("height", "{{authuser.height}}")
+						console.log("weight", "{{authuser.weight}}")
+
+						var gender = "{{authuser.gender}}"
+						var age = "{{authuser.age}}"
+						var height = "{{authuser.height}}"
+						var weight = "{{authuser.weight}}"
+
+						if (gender == 1) {
+							var targetKCal = 66.7 + (13.75 * weight) + (5 * height) - (6.76 * age)
+
+						}
+						else if (gender == 0) {
+							var targetKCal = 665.1 + (9.56 * weight) + (1.85 * height) - (4.68 * age)
+						}
+						var message = "권장 칼로리 " + targetKCal + "의 " +((kcalData/targetKCal)*100).toFixed(2) + "%를 섭취"
+						alert(message)
+					</script>
+					<h3><script>document.write(message)</script></h3>
+
 					<div>
 						<form id="link" action="{% url 'FoodInfo:getDate' %}" method="POST">
 							{% csrf_token %}
