@@ -4,8 +4,7 @@ from django.core.paginator import Paginator
 import datetime
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-
-
+from User.forms import UserChangeForm
 # Create your views here.
 @login_required(login_url='User:login')
 ## service page는 오늘 데이터들을 처리
@@ -270,3 +269,22 @@ def updateByDate(request, food_id):
 
     return render(request, 'serviceByDate.html', {'weekTable': weekTable, 'ThatDayTable': ThatDayTable,
                                                   'getDate': getDate, 'DateforChart': DateforChart})
+
+def table(requset):
+
+    baseDate = datetime.date.today()
+    todayTable = (UserTable.objects.all()).filter(
+            date=baseDate)
+    return render(requset, 'tables.html', {'todayTable':todayTable})
+
+def mypage(request):
+    authuser = User.objects.get(username=request.user)
+    # 차트
+    # today-> baseDate 변수명 변경
+
+    baseDate = datetime.date.today()
+    todayTable = (UserTable.objects.all()).filter(
+            date=baseDate, authuser_id=authuser)
+    return render(request, 'mypage.html', {'todayTable':todayTable})
+
+

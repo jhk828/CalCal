@@ -20,7 +20,8 @@
 	<!-- ICONS -->
 	<link rel="apple-touch-icon" sizes="76x76" href="/static/service/img/apple-icon.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="/static/service/img/favicon.png">
-	<script src="/static/js/button.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
 
 </head>
 <style>
@@ -29,9 +30,43 @@
     padding: 15px 10px;
     background-color: #fff;
 }
+	input[type=number] {
+	  line-height: 30px;
+}
+
+	input[type=number]::-webkit-inner-spin-button {
+	  width: 30px;
+	  height: 30px;
+}
+	#wrapper .main {
+		-webkit-transition: all 0.3s ease-in-out;
+		-moz-transition: all 0.3s ease-in-out;
+		-ms-transition: all 0.3s ease-in-out;
+		-o-transition: all 0.3s ease-in-out;
+		transition: all 0.3s ease-in-out;
+		width: calc(100% - 500px);
+		left: 0;
+		position: relative;
+		float: right;
+		background-color: #f5f5fa;
+}
+	.profile-left {
+    padding-left: 0;
+    float: left;
+    width: 70%;
+    height: 100%;
+    position: absolute;
+    background-color: #F8F8F8;
+}
+	.main-content {
+    padding: 2px 10px;
+}
 </style>
 <body>
 <script>
+	const baseDate = new Date("{{baseDate}}");
+	console.log(baseDate)
+	var kcalData = 0
     var carboData = 0
     var proteinData = 0
     var fatData = 0
@@ -39,19 +74,41 @@
     var weekData = [0, 0, 0, 0, 0, 0, 0]
 
     {% for todayFood in todayTable %}
+    	kcalData = kcalData + {{ todayFood.kcal }}
         carboData = carboData + {{ todayFood.carbo }}
         proteinData = proteinData + {{ todayFood.protein }}
         fatData = fatData + {{ todayFood.fat }}
     {% endfor %}
 
-    {% for weekFood in weekTable %}
-        kcalWeekArray[{{weekFood.date_1.weekday}}] += {{ weekFood.kcal }}
+    var weekDays = [];
+    weekDays[6] = baseDate.getMonth() + 1 + "/" + baseDate.getDate();
+
+    for (var i = 0; i < 6; i++) {
+	  baseDate.setDate(baseDate.getDate() - 1);
+	  weekDays[5 - i] = baseDate.getMonth() + 1 + "/" + baseDate.getDate();
+    }
+
+	console.log("weekDays!!");
+	console.log(weekDays);
+
+	var calDict = {};
+	for (var i = 0; i < weekDays.length; i++) {
+		calDict[weekDays[i]] = 0;
+	}
+
+	 {% for weekFood in weekTable %}
+       console.log(String( {{ weekFood.date.month }} ) + "/" + String( {{ weekFood.date.day }}));
+     if (calDict.hasOwnProperty(String({{ weekFood.date.month }}) + "/" + String({{ weekFood.date.day }}))) {
+        calDict[String( {{ weekFood.date.month }} ) + "/" + String( {{ weekFood.date.day }})] += {{ weekFood.kcal }};
+     }
     {% endfor %}
 
-     for (var i=0; i<kcalWeekArray.length; i++) {
-              weekData[i] += kcalWeekArray[i]
-     }
+   console.log("calDict");
+   console.log(calDict);
 
+   var weekCal = Object.values(calDict);
+   console.log("weekCal");
+   console.log(weekCal);
 </script>
 	<!-- WRAPPER -->
 	<b id="wrapper">
@@ -69,7 +126,9 @@
 					  {% csrf_token %}
 					<div class="input-group">
 						<input type="search" value="{{ q }}" class="form-control" placeholder="Search" name="q" >
-						<span class="input-group-btn"><button type="submit" class="btn btn-primary">Go</button></span>
+						<input type="hidden" value="{{ baseDate }}" name="baseDate"></input>
+						<span class="input-group-btn">
+						<button type="submit" class="btn btn-primary">Go</button></span>
 					</div>
 				</form>
 <!--				<div class="navbar-btn navbar-btn-right">-->
@@ -105,7 +164,7 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/static/service/img/1.PNG" class="img-circle" alt="Avatar"> <span>{{ user.username }}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
 							<ul class="dropdown-menu">
 								<li><a href="{% url 'FoodInfo:mypage' %}"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
-								<li><a href="{% url 'User:login' %}"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
+								<li><a href="{% url 'User:logout' %}"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
 							</ul>
 							{% endif %}
 						</li>
@@ -119,87 +178,91 @@
 				<nav>
 					<ul class="nav">
 						<li><a href="{%url 'FoodInfo:service' %}" class=""><i class="lnr lnr-home"></i> <span>Service</span></a></li>
-						<li><a href="{%url 'FoodInfo:search' %}" class="active"><i class="lnr lnr-code"></i> <span>Search</span></a></li>
+						<li><a href="{%url 'FoodInfo:search' %}" class=""><i class="lnr lnr-code"></i> <span>Search</span></a></li>
 						<li><a href="{%url 'FoodInfo:table' %}" class=""><i class="lnr lnr-dice"></i> <span>Tables</span></a></li>
-						<li><a href="{%url 'FoodInfo:mypage' %}" class=""><i class="lnr lnr-file-empty"></i> <span>MyPages</span> </a></li>
+						<li><a href="{%url 'FoodInfo:mypage' %}" class="active"><i class="lnr lnr-file-empty"></i> <span>MyPages</span> </a></li>
 					</ul>
 				</nav>
 			</div>
 		</div>
 		<!-- END LEFT SIDEBAR -->
+		<!-- MAIN -->
 		<div class="main">
 			<!-- MAIN CONTENT -->
-		<form action="{% url 'FoodInfo:service' %}" method="POST" >
-			{% csrf_token %}
 			<div class="main-content">
 				<div class="container-fluid">
-					<div class="panel panel-headline">
-						<div class="panel-heading">
-							{% if not table_pages %}
-							<h3 class="panel-title">검색 결과가 없습니다.</h3>
-							{% else %}
-							<h3 class="panel-title">{{ q }} 에 대한 검색 결과</h3>
-							<h3>{{ baseDate }}</h3>
-							<input type="hidden" value="{{ baseDate }}" name="baseDate">
-							<div class="right">
-								<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
+					<div class="panel panel-profile">
+						<div class="clearfix">
+							<!-- LEFT COLUMN -->
+							<div class="profile-left">
+								<!-- PROFILE HEADER -->
+								<div class="profile-header">
+									<div class="overlay"></div>
+									<div class="profile-main">
+										<img src="/static/service/img/user-medium.gif" class="img-circle" alt="Avatar">
+										<h3 class="name">{{ user.username }}</h3>
+										<span class="online-status status-available">Available</span>
+									</div>
+									<div class="profile-stat">
+										<div class="row">
+											<div class="col-md-4 stat-item">
+												{{ user.height }} cm <span>height</span>
+											</div>
+											<div class="col-md-4 stat-item">
+												{{ user.weight }} kg <span>weight</span>
+											</div>
+											<div class="col-md-4 stat-item">
+												<span class="number"><script>document.write(kcalData.toFixed())</script></span> <span>Today kcal</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- END PROFILE HEADER -->
+								<!-- PROFILE DETAIL -->
+								<div class="profile-main">
+									<div class="profile-info">
+										<h4 class="heading">User Info</h4>
+										<ul class="list-unstyled list-justify">
+											<li>age <span>{{ user.height }}</span></li>
+											<li>Email <span>{{ user.email }}</span></li>
+											<li>team <span>CalCal</span></li>
+										</ul>
+									</div>
+									<div class="profile-info">
+										<h4 class="heading">Social</h4>
+										<ul class="list-inline social-icons">
+											<li><a href="#" class="facebook-bg"><i class="fa fa-facebook"></i></a></li>
+											<li><a href="#" class="twitter-bg"><i class="fa fa-twitter"></i></a></li>
+											<li><a href="#" class="google-plus-bg"><i class="fa fa-google-plus"></i></a></li>
+											<li><a href="#" class="github-bg"><i class="fa fa-github"></i></a></li>
+										</ul>
+									</div>
+									<div class="profile-info">
+										<h4 class="heading">About</h4>
+										<p>Interactively fashion excellent information after distinctive outsourcing.</p>
+									</div>
+									<div class="text-center"><a href="#" class="btn btn-primary">Edit Profile</a></div>
+								</div>
+								<!-- END PROFILE DETAIL -->
 							</div>
-						</div>
+							<!-- END LEFT COLUMN -->
 
-						<div class="panel-body no-padding">
-							<table class="table table-striped">
-								<thead>
-									<tr>
-										<th>음식 체크</th>
-										<th>음식 이름</th>
-										<th>중량</th>
-										<th>칼로리</th>
-										<th>탄수화물</th>
-										<th>단백질</th>
-										<th>지방</th>
-										<th>#</th>
-									</tr>
-								</thead>
-								<tbody>
-								{% for table in tables.all %}
-									<tr>
-										<td><input type="checkbox" name="val_id" value="{{ table.id }}"></td>
-										<td>{{table.name}}</td>
-										<td>{{table.serving_wt}}</td>
-										<td>{{table.kcal}}</td>
-										<td>{{table.carbo}}</td>
-										<td>{{table.protein}}</td>
-										<td>{{table.fat}}</td>
-										<td>
-											#
-										</td>
-									</tr>
-								{% endfor %}
-								</tbody>
-							</table>
-						</div>
-						<div class="panel-footer">
-							<div class="row">
-								<div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> Last 24 hours</span></div>
-								<div class="col-md-6 text-right"><input type="submit" class="btn btn-primary" value="보내기"></div>
-							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</form>
+			<!-- END MAIN CONTENT -->
+		</div>
 	</div>
-
-    </b>
-    {% endif %}
-
+	<!-- END WRAPPER -->
+	<!-- Javascript -->
 	<script src="/static/service/vendor/jquery/jquery.min.js"></script>
 	<script src="/static/service/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="/static/service/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="/static/service/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
 	<script src="/static/service/vendor/chartist/js/chartist.min.js"></script>
 	<script src="/static/service/scripts/klorofil-common.js"></script>
-
+	</b>
 </body>
-</html>
 
+</html>

@@ -20,7 +20,8 @@
 	<!-- ICONS -->
 	<link rel="apple-touch-icon" sizes="76x76" href="/static/service/img/apple-icon.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="/static/service/img/favicon.png">
-	<script src="/static/js/button.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
 
 </head>
 <style>
@@ -29,30 +30,16 @@
     padding: 15px 10px;
     background-color: #fff;
 }
+	input[type=number] {
+	  line-height: 30px;
+}
+
+	input[type=number]::-webkit-inner-spin-button {
+	  width: 30px;
+	  height: 30px;
+}
 </style>
 <body>
-<script>
-    var carboData = 0
-    var proteinData = 0
-    var fatData = 0
-    var kcalWeekArray = new Array(0, 0, 0, 0, 0, 0, 0);
-    var weekData = [0, 0, 0, 0, 0, 0, 0]
-
-    {% for todayFood in todayTable %}
-        carboData = carboData + {{ todayFood.carbo }}
-        proteinData = proteinData + {{ todayFood.protein }}
-        fatData = fatData + {{ todayFood.fat }}
-    {% endfor %}
-
-    {% for weekFood in weekTable %}
-        kcalWeekArray[{{weekFood.date_1.weekday}}] += {{ weekFood.kcal }}
-    {% endfor %}
-
-     for (var i=0; i<kcalWeekArray.length; i++) {
-              weekData[i] += kcalWeekArray[i]
-     }
-
-</script>
 	<!-- WRAPPER -->
 	<b id="wrapper">
 		<!-- NAVBAR -->
@@ -69,7 +56,9 @@
 					  {% csrf_token %}
 					<div class="input-group">
 						<input type="search" value="{{ q }}" class="form-control" placeholder="Search" name="q" >
-						<span class="input-group-btn"><button type="submit" class="btn btn-primary">Go</button></span>
+						<input type="hidden" value="{{ baseDate }}" name="baseDate"></input>
+						<span class="input-group-btn">
+						<button type="submit" class="btn btn-primary">Go</button></span>
 					</div>
 				</form>
 <!--				<div class="navbar-btn navbar-btn-right">-->
@@ -105,7 +94,7 @@
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/static/service/img/1.PNG" class="img-circle" alt="Avatar"> <span>{{ user.username }}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
 							<ul class="dropdown-menu">
 								<li><a href="{% url 'FoodInfo:mypage' %}"><i class="lnr lnr-user"></i> <span>My Profile</span></a></li>
-								<li><a href="{% url 'User:login' %}"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
+								<li><a href="{% url 'User:logout' %}"><i class="lnr lnr-exit"></i> <span>Logout</span></a></li>
 							</ul>
 							{% endif %}
 						</li>
@@ -119,8 +108,8 @@
 				<nav>
 					<ul class="nav">
 						<li><a href="{%url 'FoodInfo:service' %}" class=""><i class="lnr lnr-home"></i> <span>Service</span></a></li>
-						<li><a href="{%url 'FoodInfo:search' %}" class="active"><i class="lnr lnr-code"></i> <span>Search</span></a></li>
-						<li><a href="{%url 'FoodInfo:table' %}" class=""><i class="lnr lnr-dice"></i> <span>Tables</span></a></li>
+						<li><a href="{%url 'FoodInfo:search' %}" class=""><i class="lnr lnr-code"></i> <span>Search</span></a></li>
+						<li><a href="{%url 'FoodInfo:table' %}" class="active"><i class="lnr lnr-dice"></i> <span>Tables</span></a></li>
 						<li><a href="{%url 'FoodInfo:mypage' %}" class=""><i class="lnr lnr-file-empty"></i> <span>MyPages</span> </a></li>
 					</ul>
 				</nav>
@@ -129,50 +118,42 @@
 		<!-- END LEFT SIDEBAR -->
 		<div class="main">
 			<!-- MAIN CONTENT -->
-		<form action="{% url 'FoodInfo:service' %}" method="POST" >
-			{% csrf_token %}
 			<div class="main-content">
 				<div class="container-fluid">
-					<div class="panel panel-headline">
+					<div class="panel">
 						<div class="panel-heading">
-							{% if not table_pages %}
-							<h3 class="panel-title">검색 결과가 없습니다.</h3>
-							{% else %}
-							<h3 class="panel-title">{{ q }} 에 대한 검색 결과</h3>
-							<h3>{{ baseDate }}</h3>
-							<input type="hidden" value="{{ baseDate }}" name="baseDate">
+							<h3 class="panel-title">오늘 회원들이 음식</h3>
 							<div class="right">
 								<button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
 							</div>
 						</div>
-
 						<div class="panel-body no-padding">
 							<table class="table table-striped">
 								<thead>
 									<tr>
-										<th>음식 체크</th>
+										<th>#</th>
+										<th>아이디</th>
 										<th>음식 이름</th>
 										<th>중량</th>
 										<th>칼로리</th>
 										<th>탄수화물</th>
 										<th>단백질</th>
 										<th>지방</th>
-										<th>#</th>
+										<th>지방</th>
 									</tr>
 								</thead>
 								<tbody>
-								{% for table in tables.all %}
+								{% for food in todayTable.all %}
 									<tr>
-										<td><input type="checkbox" name="val_id" value="{{ table.id }}"></td>
-										<td>{{table.name}}</td>
-										<td>{{table.serving_wt}}</td>
-										<td>{{table.kcal}}</td>
-										<td>{{table.carbo}}</td>
-										<td>{{table.protein}}</td>
-										<td>{{table.fat}}</td>
-										<td>
-											#
-										</td>
+										<td>{{forloop.counter}}</td>
+										<td>{{food.authuser.username}}</td>
+										<td>{{food.name}}</td>
+										<td>{{food.serving_wt}}</td>
+										<td>{{food.kcal}}</td>
+										<td>{{food.carbo}}</td>
+										<td>{{food.protein}}</td>
+										<td>{{food.fat}}</td>
+										<td>{{food.amount}}</td>
 									</tr>
 								{% endfor %}
 								</tbody>
@@ -180,26 +161,20 @@
 						</div>
 						<div class="panel-footer">
 							<div class="row">
-								<div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> Last 24 hours</span></div>
-								<div class="col-md-6 text-right"><input type="submit" class="btn btn-primary" value="보내기"></div>
+								<div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> today </span></div>
+								<div class="col-md-6 text-right"><a href="#" class="btn btn-primary">View All Purchases</a></div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</form>
-	</div>
-
+		</div>
     </b>
-    {% endif %}
-
 	<script src="/static/service/vendor/jquery/jquery.min.js"></script>
 	<script src="/static/service/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="/static/service/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
 	<script src="/static/service/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
 	<script src="/static/service/vendor/chartist/js/chartist.min.js"></script>
 	<script src="/static/service/scripts/klorofil-common.js"></script>
-
 </body>
 </html>
-
