@@ -248,7 +248,7 @@
 						</div>
 					</div>
 					<div>
-						<form action="{% url 'FoodInfo:getDate' %}" id="link" method="POST">
+						<form action="{% url 'FoodInfo:serviceByDate' %}" id="link" method="POST">
 							{% csrf_token %}
 							<input type="date" placeholder="날짜" id="my_date" name="getDate" />
 								{% csrf_token %}

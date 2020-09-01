@@ -62,6 +62,8 @@ def service(request):
 def search(request):
     if request.method == 'GET':
         q = request.GET.get('q', "")
+        baseDate = request.GET.get('baseDate')
+
     else:
         q = request.POST.get('q', "")
         # 오늘 날짜 값
@@ -69,7 +71,7 @@ def search(request):
     tables = (Table.objects.all()).filter(name__icontains=q)
 
     if q:
-        # tables = tables.filter(name__icontains=q)
+        tables = tables.filter(name__icontains=q)
         paginator = Paginator(tables, 10)
         page = request.GET.get('page')
         table_pages = paginator.get_page(page)
@@ -128,7 +130,7 @@ def update(request, food_id):
 
 
 
-def getDate(request):
+def serviceByDate(request):
     authuser = User.objects.get(username=request.user)
 
     if request.method == 'POST':
@@ -174,16 +176,17 @@ def getDate(request):
         next = request.POST.get('next', '/FoodInfo/service/')
         return  HttpResponseRedirect(next)
 
-def getDateSearch(request):
+def searchByDate(request):
     if request.method == 'GET':
         q = request.GET.get('q', "")
+        getDate = request.GET.get('getDate')
     else:
         q = request.POST.get('q', "")
         getDate = request.POST.get('getDate')
     tables = (Table.objects.all()).filter(name__icontains=q)
 
     if q:
-        # tables = tables.filter(name__icontains=q)
+        tables = tables.filter(name__icontains=q)
         paginator = Paginator(tables, 10)
         page = request.GET.get('page')
         table_pages = paginator.get_page(page)

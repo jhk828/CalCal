@@ -91,7 +91,7 @@
 				<div class="navbar-btn">
 					<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
 				</div>
-				<form class="navbar-form navbar-left" action="{% url 'FoodInfo:getDateSearch' %}" method="POST">
+				<form class="navbar-form navbar-left" action="{% url 'FoodInfo:searchByDate' %}" method="POST">
 					  {% csrf_token %}
 					<div class="input-group">
 						<input type="search" value="{{ q }}" class="form-control" placeholder="Search" name="q" >
@@ -241,7 +241,7 @@
 						</div>
 					</div>
 					<div>
-						<form id="link" action="{% url 'FoodInfo:getDate' %}" method="POST">
+						<form id="link" action="{% url 'FoodInfo:serviceByDate' %}" method="POST">
 							{% csrf_token %}
 							<input type="date" placeholder="날짜" id="my_date" name="getDate" />
 								{% csrf_token %}

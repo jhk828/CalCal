@@ -65,10 +65,11 @@
 				<div class="navbar-btn">
 					<button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
 				</div>
-				<form class="navbar-form navbar-left" action="{% url 'FoodInfo:search' %}" method="POST">
+				<form class="navbar-form navbar-left" action="{% url 'FoodInfo:searchByDate' %}" method="POST">
 					  {% csrf_token %}
 					<div class="input-group">
 						<input type="search" value="{{ q }}" class="form-control" placeholder="Search" name="q" >
+						<input type="hidden" value="{{ getDate }}" name="getDate">
 						<span class="input-group-btn"><button type="submit" class="btn btn-primary">Go</button></span>
 					</div>
 				</form>
@@ -143,7 +144,7 @@
 		<!-- END LEFT SIDEBAR -->
 		<div class="main">
 			<!-- MAIN CONTENT -->
-		<form action="{% url 'FoodInfo:getDate' %}" method="POST" >
+		<form action="{% url 'FoodInfo:serviceByDate' %}" method="POST" >
 			{% csrf_token %}
 			<div class="main-content">
 				<div class="container-fluid">
@@ -175,7 +176,7 @@
 									</tr>
 								</thead>
 								<tbody>
-								{% for table in tables.all %}
+								{% for table in table_pages %}
 									<tr>
 										<td><input type="checkbox" name="val_id" value="{{ table.id }}"></td>
 										<td>{{table.name}}</td>
@@ -191,6 +192,52 @@
 								{% endfor %}
 								</tbody>
 							</table>
+						</div>
+						<div>
+							{% if table_pages.has_previous %}
+								<form></form>
+								<form>
+									<button type="submit">
+										<input type="hidden" value="{{ getDate }}" name="getDate">
+										<input type="hidden" value="{{ q }}" name="q" >
+										<input type="hidden" value="1" name="page" >
+										First
+									</button>
+								</form>
+								<form>
+									<button type="submit">
+										<input type="hidden" value="{{ getDate }}" name="getDate">
+										<input type="hidden" value="{{ q }}" name="q" >
+										<input type="hidden" value="{{ table_pages.previous_page_number}}" name="page" >
+										Previous
+									</button>
+								</form>
+							{% endif %}
+
+								<span>{{ table_pages.number }}</span>
+								<span>of</span>
+								<span>{{ table_pages.paginator.num_pages }}</span>
+
+							{% if table_pages.has_next %}
+								<form></form>
+								<form>
+									<button type="submit">
+										<input type="hidden" value="{{ getDate }}" name="getDate">
+										<input type="hidden" value="{{ q }}" name="q" >
+										<input type="hidden" value="{{ table_pages.next_page_number }}" name="page" >
+										Next
+									</button>
+								</form>
+
+								<form>
+									<button type="submit">
+										<input type="hidden" value="{{ getDate }}" name="getDate">
+										<input type="hidden" value="{{ q }}" name="q" >
+										<input type="hidden" value="{{ table_pages.paginator.num_pages }}" name="page" >
+										Last
+									</button>
+								</form>
+							{% endif %}
 						</div>
 						<div class="panel-footer">
 							<div class="row">

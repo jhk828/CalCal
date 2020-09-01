@@ -9,8 +9,8 @@ urlpatterns = [
     path('search/', views.search, name='search'),
     path('<int:food_id>/delete/', views.delete, name='delete'),
     path('<int:food_id>/update/', views.update, name='update'),
-    path('getDate/', views.getDate, name='getDate'),
-    path('getDateSearch/', views.getDateSearch, name='getDateSearch'),
+    path('serviceByDate/', views.serviceByDate, name='serviceByDate'),
+    path('searchByDate/', views.searchByDate, name='searchByDate'),
     path('<int:food_id>/getDate/delete/', views.deleteByDate, name='deleteByDate'),
     path('<int:food_id>/getDate/update/', views.updateByDate, name='updateByDate')
 ]
