@@ -131,7 +131,7 @@ def update(request, food_id):
 
 
 
-def getDate(request, inputDate):
+def getDate(request):
     authuser = User.objects.get(username=request.user)
 
     if request.method == 'POST':
