@@ -6,9 +6,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 
 
-
-
-
 # Create your views here.
 @login_required(login_url='User:login')
 ## service page는 오늘 데이터들을 처리
@@ -42,7 +39,7 @@ def service(request):
                                   date = baseDate) # baseDate2 to baseDate
             usertable.save()
         context = get_list_or_404(UserTable, authuser=authuser)
-        return render(request, 'service_test.html', {'select_food': context, 'todayTable': todayTable,
+        return render(request, 'service.html', {'select_food': context, 'todayTable': todayTable,
                                                      'weekTable': weekTable, 'baseDate':baseDate})
 
     else:
@@ -54,11 +51,11 @@ def service(request):
         try :
             authuser = User.objects.get(username=request.user)
             context = get_list_or_404(UserTable, authuser=authuser)
-            return render(request, 'service_test.html', {'select_food': context, 'todayTable': todayTable,
+            return render(request, 'service.html', {'select_food': context, 'todayTable': todayTable,
                                                          'weekTable': weekTable, 'baseDate': baseDate})
         # UserTable에 값이 없을 때
         except:
-            return render(request, 'service_test.html', {'todayTable': todayTable, 'weekTable': weekTable,
+            return render(request, 'service.html', {'todayTable': todayTable, 'weekTable': weekTable,
                                                          'baseDate': baseDate})
 
 
@@ -135,18 +132,21 @@ def getDate(request):
     authuser = User.objects.get(username=request.user)
 
     if request.method == 'POST':
-        getDate = request.POST.get('getDate')  ###
-        get_list = request.POST.getlist('val_id')  ###
-
+        get_list = request.POST.getlist('val_id')
         getDate = request.POST.get('getDate')
-        DateforChart = getDate
 
-        # 그래프의 날짜 처리를 위해 형식변환
-        DateforTable = datetime.datetime.strptime(getDate, "%Y-%m-%d").date()
-        ThatDayTable = (UserTable.objects.all()).filter(date=DateforTable, authuser_id=authuser)
-        weekTable = (UserTable.objects.all()).filter(date__range=[DateforTable + datetime.timedelta(days=-6),
-                                                                  DateforTable + datetime.timedelta(days=0)],
-                                                     authuser_id=authuser)
+        # 날짜 입력을 아무것도 안했을 때
+        if getDate == '':
+            return redirect('FoodInfo:service')
+        else :
+            DateforChart = getDate
+
+            # 그래프의 날짜 처리를 위해 형식변환
+            DateforTable = datetime.datetime.strptime(getDate, "%Y-%m-%d").date()
+            ThatDayTable = (UserTable.objects.all()).filter(date=DateforTable, authuser_id=authuser)
+            weekTable = (UserTable.objects.all()).filter(date__range=[DateforTable + datetime.timedelta(days=-6),
+                                                                      DateforTable + datetime.timedelta(days=0)],
+                                                         authuser_id=authuser)
 
         # get_list에 값이 있으면 -> 검색해서 불러온 값이 있다는 의미
         # 따라서 여기서 불러온 값을 db 저장
@@ -187,7 +187,6 @@ def getDateSearch(request):
         paginator = Paginator(tables, 10)
         page = request.GET.get('page')
         table_pages = paginator.get_page(page)
-        # return render(request, 'search.html', {'tables': tables, 'q': q, 'table_pages': table_pages})
         return render(request, 'searchByDate.html', {'tables': tables, 'q': q, 'table_pages': table_pages, 'getDate': getDate})
     else:
         return render(request, 'searchByDate.html')
