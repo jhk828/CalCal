@@ -2,19 +2,24 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="702f5ec7-b0d2-4275-9bc2-2b08e319e638" name="Default Changelist" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/FoodInfo/templates/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/FoodInfo/templates/search.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FoodInfo/templates/searchByDate.html" beforeDir="false" afterPath="$PROJECT_DIR$/FoodInfo/templates/searchByDate.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FoodInfo/templates/service.html" beforeDir="false" afterPath="$PROJECT_DIR$/FoodInfo/templates/service.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FoodInfo/templates/serviceByDate.html" beforeDir="false" afterPath="$PROJECT_DIR$/FoodInfo/templates/serviceByDate.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FoodInfo/templates/tables.html" beforeDir="false" afterPath="$PROJECT_DIR$/FoodInfo/templates/tables.html" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FoodInfo/templates/service.html" beforeDir="false" afterPath="$PROJECT_DIR$/FoodInfo/templates/service.html" afterDir="false" />
+>>>>>>> ee5551fe9bb4f5c40539eee8bd126628d510604a
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+<<<<<<< HEAD
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="true">
@@ -189,22 +194,19 @@
         </subPane>
       </pane>
     </panes>
+=======
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1gwMMKFbz5m2P5qk2kLJpfnZuKL" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+>>>>>>> ee5551fe9bb4f5c40539eee8bd126628d510604a
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager">
     <configuration name="CalCal" type="Python.DjangoServer" factoryName="Django server">
@@ -231,6 +233,7 @@
       <method v="2" />
     </configuration>
   </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -248,6 +251,7 @@
   <component name="TimeTrackingManager">
     <option name="totallyTimeSpent" value="10814000" />
   </component>
+<<<<<<< HEAD
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
@@ -357,4 +361,9 @@
       </provider>
     </entry>
   </component>
+=======
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+>>>>>>> ee5551fe9bb4f5c40539eee8bd126628d510604a
 </project>
