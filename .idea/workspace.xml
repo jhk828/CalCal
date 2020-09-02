@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="702f5ec7-b0d2-4275-9bc2-2b08e319e638" name="Default Changelist" comment="">
+<<<<<<< HEAD
 <<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/FoodInfo/templates/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/FoodInfo/templates/search.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FoodInfo/templates/searchByDate.html" beforeDir="false" afterPath="$PROJECT_DIR$/FoodInfo/templates/searchByDate.html" afterDir="false" />
@@ -15,6 +34,19 @@
       <change beforePath="$PROJECT_DIR$/FoodInfo/templates/service.html" beforeDir="false" afterPath="$PROJECT_DIR$/FoodInfo/templates/service.html" afterDir="false" />
 <<<<<<< HEAD
 >>>>>>> ee5551fe9bb4f5c40539eee8bd126628d510604a
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/CalCal.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CalCal.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CalCal/templates/signup.html" beforeDir="false" afterPath="$PROJECT_DIR$/CalCal/templates/signup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CalCal/templates/update.html" beforeDir="false" afterPath="$PROJECT_DIR$/CalCal/templates/update.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FoodInfo/migrations/0001_initial.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/FoodInfo/templates/mypage.html" beforeDir="false" afterPath="$PROJECT_DIR$/FoodInfo/templates/mypage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FoodInfo/templates/service.html" beforeDir="false" afterPath="$PROJECT_DIR$/FoodInfo/templates/service.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FoodInfo/templates/serviceByDate.html" beforeDir="false" afterPath="$PROJECT_DIR$/FoodInfo/templates/serviceByDate.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/User/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/User/models.py" afterDir="false" />
+>>>>>>> 3e18ab402afe05ea813fdddaf41f8b12f1a2a705
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
 =======
       <change beforePath="$PROJECT_DIR$/FoodInfo/templates/serviceByDate.html" beforeDir="false" afterPath="$PROJECT_DIR$/FoodInfo/templates/serviceByDate.html" afterDir="false" />
@@ -26,6 +58,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+<<<<<<< HEAD
 <<<<<<< HEAD
   <component name="FileEditorManager">
     <leaf>
@@ -133,10 +166,15 @@
       <find>view all</find>
       <find>last</find>
     </findStrings>
+=======
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
+>>>>>>> 3e18ab402afe05ea813fdddaf41f8b12f1a2a705
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+<<<<<<< HEAD
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -210,10 +248,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
 >>>>>>> ee5551fe9bb4f5c40539eee8bd126628d510604a
+=======
+  <component name="JupyterTrust" id="41be2993-77fd-4d6a-8295-eab7a43b57e2" />
+  <component name="ProjectId" id="1gwMLYWyouLys86SygZHwt8AkKa" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+>>>>>>> 3e18ab402afe05ea813fdddaf41f8b12f1a2a705
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+<<<<<<< HEAD
+=======
+    <property name="settings.editor.selected.configurable" value="terminal" />
+>>>>>>> 3e18ab402afe05ea813fdddaf41f8b12f1a2a705
   </component>
   <component name="RunManager">
     <configuration name="CalCal" type="Python.DjangoServer" factoryName="Django server">
@@ -222,6 +271,7 @@
       <option name="PARENT_ENVS" value="true" />
       <envs>
         <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="DJANGO_SETTINGS_MODULE" value="CalCal.settings" />
       </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
@@ -251,6 +301,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1599009545952</updated>
+<<<<<<< HEAD
       <workItem from="1599009550775" duration="10814000" />
     </task>
     <servers />
@@ -285,10 +336,31 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
     </layout>
+=======
+      <workItem from="1599009550775" duration="7240000" />
+      <workItem from="1599021148177" duration="10178000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TerminalProjectNonSharedOptionsProvider">
+    <option name="shellPath" value="&quot;C:\Program Files\Git\usr\bin\bash.exe&quot; --login" />
+>>>>>>> 3e18ab402afe05ea813fdddaf41f8b12f1a2a705
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="3" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+<<<<<<< HEAD
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/CalCal/templates/update.html">
       <provider selected="true" editor-type-id="text-editor">
@@ -367,6 +439,17 @@
         </state>
       </provider>
     </entry>
+=======
+  <component name="WindowStateProjectService">
+    <state x="738" y="186" key="FileChooserDialogImpl" timestamp="1599021595396">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="738" y="186" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1599021595396" />
+    <state x="467" y="91" key="SettingsEditor" timestamp="1599021605477">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="467" y="91" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1599021605477" />
+>>>>>>> 3e18ab402afe05ea813fdddaf41f8b12f1a2a705
   </component>
 =======
   <component name="TypeScriptGeneratedFilesManager">

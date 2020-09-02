@@ -92,11 +92,11 @@
 		var height = "{{authuser.height}}"
 		var weight = "{{authuser.weight}}"
 
-		if (gender == 1) {
+	    if ((gender == 'M') || (gender == 'Male')) {
 				var targetKCal = 66.7 + (13.75 * weight) + (5 * height) - (6.76 * age)
 
 		}
-		else if (gender == 0) {
+		else if ((gender == 'F') || (gender == 'Female')) {
 			var targetKCal = 665.1 + (9.56 * weight) + (1.85 * height) - (4.68 * age)
 		}
 		var message = "권장 칼로리 " + targetKCal + "의 " +((kcalData/targetKCal)*100).toFixed(2) + "%를 섭취"
@@ -335,14 +335,14 @@
 												{% csrf_token %}
 												<input type="number" name="count"
 															   placeholder="1.0" step="0.1" min="0">
-												<input type="hidden" value="{{ getDate }}" name="getDate"></input>
+												<input type="hidden" value="{{ getDate }}" name="getDate">
 												<input type="submit" value="양 설정" class="btn-primary">
 											</form>
 										</td>
                                         <td>
 											<form action="{% url 'FoodInfo:deleteByDate' food.id %}" method="POST" >
 												{% csrf_token %}
-												<input type="hidden" value="{{ getDate }}" name="getDate"></input>
+												<input type="hidden" value="{{ getDate }}" name="getDate">
 												<button type="submit" class="btn btn-danger">삭제</button></span>
 											</form>
 										</td>

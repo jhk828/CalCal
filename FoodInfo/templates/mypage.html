@@ -21,8 +21,6 @@
 	<link rel="apple-touch-icon" sizes="76x76" href="/static/service/img/apple-icon.png">
 	<link rel="icon" type="image/png" sizes="96x96" href="/static/service/img/favicon.png">
 	<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-
-
 </head>
 <style>
 	.navbar-default .brand {
@@ -68,18 +66,6 @@
 	{% for todayFood in todayTable %}
 		kcalData = kcalData + {{ todayFood.kcal }}
 	{% endfor %}
-
-	console.log("username", "{{authuser.username}}")
-	console.log("gender", "{{authuser.gender}}")
-	console.log("age", "{{authuser.age}}")
-	console.log("height", "{{authuser.height}}")
-	console.log("weight", "{{authuser.weight}}")
-
-	var username = "{{authuser.username}}"
-	var gender = "{{authuser.gender}}"
-	var age = "{{authuser.age}}"
-	var height = "{{authuser.height}}"
-	var weight = "{{authuser.weight}}"
 </script>
 	<!-- WRAPPER -->
 	<b id="wrapper">
@@ -182,27 +168,44 @@
 								<!-- END PROFILE HEADER -->
 								<!-- PROFILE DETAIL -->
 								<div class="profile-main">
-									<div class="profile-info">
+                                    <div class="profile-info">
 										<h4 class="heading">User Info</h4>
-										<ul class="list-unstyled list-justify">
-											<li>age <span>{{ user.age }}</span></li>
-											<li>Email <span>{{ user.email }}</span></li>
-											<li>team <span>CalCal</span></li>
-										</ul>
-									</div>
-									<div class="profile-info">
-										<h4 class="heading">Social</h4>
-										<ul class="list-inline social-icons">
-											<li><a href="#" class="facebook-bg"><i class="fa fa-facebook"></i></a></li>
-											<li><a href="#" class="twitter-bg"><i class="fa fa-twitter"></i></a></li>
-											<li><a href="#" class="google-plus-bg"><i class="fa fa-google-plus"></i></a></li>
-											<li><a href="#" class="github-bg"><i class="fa fa-github"></i></a></li>
-										</ul>
-									</div>
-									<div class="profile-info">
-										<h4 class="heading">About</h4>
-										<p>Interactively fashion excellent information after distinctive outsourcing.</p>
-									</div>
+                                        <div class="form-group">
+                                             <label for="id_username">Username</label>
+                                              <input type="text" name="username" value={{ user.username }} maxlength="40"
+                                                  class="form-control" placeholder="Username" readonly>
+                                         </div>
+
+                                        <div class="form-group">
+                                            <label for="id_email">Email</label>
+                                            <input type="email" name="email" value={{ user.email }} maxlength="240"
+                                                   class="form-control" placeholder="Email" readonly>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="id_age">Age</label>
+                                            <input type="number" name="age" value={{ user.age }} maxlength="240"
+                                                   class="form-control" placeholder="Age" readonly>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="id_weight">Weight</label>
+                                            <input type="number" name="weight" value={{ user.weight }} maxlength="240"
+                                                   class="form-control" placeholder="Weight" readonly>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="id_height">Height</label>
+                                            <input type="number" name="height" value={{ user.height }} maxlength="240"
+                                                   class="form-control" placeholder="Height" readonly>
+                                        </div>
+
+                                         <div class="form-group">
+                                            <label for="id_gender">Gender</label>
+                                            <input type="text" name="gender" value={{ user.gender }} maxlength="240"
+                                                   class="form-control" placeholder="Gender" readonly>
+                                        </div>
+                                    </div>
 									<div class="text-center"><a href="/User/update_user/" class="btn btn-primary">Edit Profile</a></div>
 								</div>
 								<!-- END PROFILE DETAIL -->

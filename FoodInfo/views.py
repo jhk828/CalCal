@@ -286,6 +286,7 @@ def mypage(request):
     # today-> baseDate 변수명 변경
 
     baseDate = datetime.date.today()
+    baseDate = str(baseDate)
     todayTable = (UserTable.objects.all()).filter(
             date=baseDate, authuser_id=authuser)
-    return render(request, 'mypage.html', {'todayTable':todayTable, 'authuser':authuser})
+    return render(request, 'mypage.html', {'todayTable':todayTable, 'authuser':authuser, 'baseDate':baseDate})
