@@ -43,9 +43,7 @@ class UserCreationForm(forms.ModelForm):
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = get_user_model()
-        fields = ['username', 'email', 'age']
-
-        # fields = ['username', 'email', 'age', 'weight', 'height', 'gender']
+        fields = ['username', 'email', 'age', 'weight', 'height', 'gender']
 
     def save(self, commit=True):
         user = super().save(commit=False)

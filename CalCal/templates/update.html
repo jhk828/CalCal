@@ -23,8 +23,26 @@
 
     <div class="form-group">
         <label for="id_age">Age</label>
-        <input type="text" name="number" value={{ user.age }} maxlength="240"
+        <input type="number" name="age" value={{ user.age }} maxlength="240"
                class="form-control" placeholder="Age" title="" required id="id_age">
+    </div>
+
+    <div class="form-group">
+        <label for="id_weight">Weight</label>
+        <input type="number" name="weight" value={{ user.weight }} maxlength="240"
+               class="form-control" placeholder="Weight" title="" required id="id_weight">
+    </div>
+
+     <div class="form-group">
+        <label for="id_height">Height</label>
+        <input type="number" name="height" value={{ user.height }} maxlength="240"
+               class="form-control" placeholder="Height" title="" required id="id_height">
+    </div>
+
+     <div class="form-group">
+        <label for="id_gender">Gender</label>
+        <input type="number" name="gender" value={{ user.gender }} maxlength="240"
+               class="form-control" placeholder="Gender" title="" required id="id_gender">
     </div>
 
     <input type="submit" value="Submit"/>
