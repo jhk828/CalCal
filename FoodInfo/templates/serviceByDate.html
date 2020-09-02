@@ -294,7 +294,7 @@
 							<table class="table table-striped">
 								<thead>
 									<tr>
-										<th>음식 체크</th>
+										<th></th>
 										<th>음식 이름</th>
 										<th>중량</th>
 										<th>칼로리</th>
@@ -302,8 +302,8 @@
 										<th>단백질</th>
 										<th>지방</th>
 										<th>섭취량</th>
-										<th>#</th>
-										<th>#</th>
+										<th>섭취량 설정</th>
+										<th></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -318,13 +318,6 @@
 										<td>{{food.fat}}</td>
 										<td>{{food.amount}}</td>
 										<td>
-											<form action="{% url 'FoodInfo:deleteByDate' food.id %}" method="POST" >
-												{% csrf_token %}
-												<input type="hidden" value="{{ getDate }}" name="getDate"></input>
-												<button type="submit" class="btn btn-danger">삭제</button></span>
-											</form>
-										</td>
-										<td>
 											<form action="{% url 'FoodInfo:updateByDate' food.id %}" method="POST" >
 												{% csrf_token %}
 												<input type="number" name="count"
@@ -333,6 +326,17 @@
 												<input type="submit" value="양 설정">
 											</form>
 										</td>
+                                        <td>
+											<form action="{% url 'FoodInfo:deleteByDate' food.id %}" method="POST" >
+												{% csrf_token %}
+												<input type="hidden" value="{{ getDate }}" name="getDate"></input>
+												<button type="submit" class="btn btn-danger">삭제</button></span>
+											</form>
+										</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
 									</tr>
 								{% endfor %}
 								</tbody>

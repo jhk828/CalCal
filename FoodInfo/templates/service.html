@@ -262,30 +262,26 @@
 									</div>
                                         <div class="col-md-6">
 										<div id="demo-line-chart" class="ct-chart"></div>
-                                </div>
-							    </div>
-
-                            <div class="panel-body">
-							<div class="row">
-								<div class="col-md-3">
-									<div class="metric">
-										<p>
-											<span class="number"><script>document.write(targetKCal)</script></span>
-											<span class="title">권장 섭취 칼로리</span>
-										</p>
-									</div>
+                                    </div>
+                                    <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="metric">
+                                            <p>
+                                                <span class="number"><script>document.write(targetKCal)</script></span>
+                                                <span class="title">권장 섭취 칼로리</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="metric">
+                                            <p>
+                                                <span class="number"><script>document.write(((kcalData/targetKCal)*100).toFixed(2) + "%")</script></span>
+                                                <span class="title">섭취한 칼로리 비율</span>
+                                            </p>
+                                        </div>
+                                    </div>
 								</div>
-								<div class="col-md-3">
-									<div class="metric">
-										<p>
-											<span class="number"><script>document.write(((kcalData/targetKCal)*100).toFixed(2) + "%")</script></span>
-											<span class="title">섭취한 칼로리 비율</span>
-										</p>
-									</div>
-								</div>
-
-								</div>
-							</div>
+                            </div>
 						</div>
 					</div>
 
@@ -375,7 +371,7 @@
 
 		// line chart
 		options = {
-			height: "500px",
+			height: "350px",
 			showPoint: true,
 			axisX: {
 				showGrid: false

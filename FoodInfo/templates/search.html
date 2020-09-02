@@ -186,7 +186,7 @@
 						<div class="box1">
 							{% if table_pages.has_previous %}
 								<form></form>
-								<form>
+                                <form class="pagination">
 									<button type="submit">
 										<input type="hidden" value="{{ baseDate }}" name="baseDate">
 										<input type="hidden" value="{{ q }}" name="q" >
@@ -203,11 +203,11 @@
 									</button>
 								</form>
 							{% endif %}
-
+                            <div>
 								<span>{{ table_pages.number }}</span>
 								<span>of</span>
 								<span>{{ table_pages.paginator.num_pages }}</span>
-
+                            </div>
 							{% if table_pages.has_next %}
 								<form></form>
 								<form>
@@ -224,7 +224,7 @@
 										<input type="hidden" value="{{ baseDate }}" name="baseDate">
 										<input type="hidden" value="{{ q }}" name="q" >
 										<input type="hidden" value="{{ table_pages.paginator.num_pages }}" name="page" >
-										Last
+										<a>Last</a>
 									</button>
 								</form>
 							{% endif %}
