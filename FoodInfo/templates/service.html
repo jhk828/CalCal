@@ -188,9 +188,8 @@
 				<div class="container-fluid">
 					<div class="panel panel-headline">
 						<div class="panel-heading">
-							<h3 class="panel-title">Weekly Overview ({{ baseDate }})</h3>
+							<h3 class="panel-title">Overview ({{ baseDate }})</h3>
 							<script>var period = weekDays[0] + " ~ " + weekDays[6]</script>
-							<p class="panel-subtitle">Period: <script>document.write(period)</script></p>
 						</div>
 
 
@@ -276,7 +275,7 @@
 								<div class="col-md-3">
 									<div class="metric">
 										<p>
-											<span class="number"><script>document.write(targetKCal)</script></span>
+											<span class="number"><script>document.write(targetKCal.toFixed(2))</script></span>
 											<span class="title">권장 섭취 칼로리</span>
 										</p>
 									</div>
