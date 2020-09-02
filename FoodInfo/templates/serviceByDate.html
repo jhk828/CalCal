@@ -137,15 +137,14 @@
 								<li><a href="#" class="more">See all notifications</a></li>
 							</ul>
 						</li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i> <span>Help</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">Basic Use</a></li>
-								<li><a href="#">Working With Data</a></li>
-								<li><a href="#">Security</a></li>
-								<li><a href="#">Troubleshooting</a></li>
-							</ul>
-						</li>
+	                    <div class="nav navbar-nav navbar-right">
+						<form class="navbar-form navbar-left"action="{% url 'FoodInfo:serviceByDate' %}" id="link" method="POST">
+							{% csrf_token %}
+							<input type="date" placeholder="날짜" id="my_date" name="getDate" />
+								{% csrf_token %}
+							<button type="submit">날짜 이동</button>
+						  </form>
+					    </div>
 						<li class="dropdown">
 							{% if user.is_authenticated %}
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/static/service/img/user.png" class="img-circle" alt="Avatar"> <span>{{ user.username }}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
@@ -165,23 +164,8 @@
 				<nav>
 					<ul class="nav">
 						<li><a href="{%url 'FoodInfo:service' %}" class="active"><i class="lnr lnr-home"></i> <span>Service</span></a></li>
-						<li><a href="{%url 'FoodInfo:search' %}" class=""><i class="lnr lnr-code"></i> <span>Search</span></a></li>
-<!--						<li><a href="charts.html" class=""><i class="lnr lnr-chart-bars"></i> <span>Charts</span></a></li>-->
-<!--						<li><a href="panels.html" class=""><i class="lnr lnr-cog"></i> <span>Panels</span></a></li>-->
-<!--						<li><a href="notifications.html" class=""><i class="lnr lnr-alarm"></i> <span>Notifications</span></a></li>-->
-<!--						<li>-->
-<!--							<a href="#subPages" data-toggle="collapse" class="collapsed"><i class="lnr lnr-file-empty"></i> <span>Pages</span> <i class="icon-submenu lnr lnr-chevron-left"></i></a>-->
-<!--							<div id="subPages" class="collapse ">-->
-<!--								<ul class="nav">-->
-<!--									<li><a href="mypage.html" class="">Profile</a></li>-->
-<!--									<li><a href="page-login.html" class="">Login</a></li>-->
-<!--									<li><a href="page-lockscreen.html" class="">Lockscreen</a></li>-->
-<!--								</ul>-->
-<!--							</div>-->
-<!--						</li>-->
-<!--						<li><a href="tables.html" class=""><i class="lnr lnr-dice"></i> <span>Tables</span></a></li>-->
-<!--						<li><a href="typography.html" class=""><i class="lnr lnr-text-format"></i> <span>Typography</span></a></li>-->
-<!--						<li><a href="icons.html" class=""><i class="lnr lnr-linearicons"></i> <span>Icons</span></a></li>-->
+                        <li><a href="{%url 'FoodInfo:table' %}" class=""><i class="lnr lnr-dice"></i> <span>Tables</span></a></li>
+						<li><a href="{%url 'FoodInfo:mypage' %}" class=""><i class="lnr lnr-file-empty"></i> <span>MyPages</span> </a></li>
 					</ul>
 				</nav>
 			</div>
@@ -193,46 +177,13 @@
 				<div class="container-fluid">
 					<div class="panel panel-headline">
 						<div class="panel-heading">
-							<h3 class="panel-title">Weekly Overview</h3>
+							<h3 class="panel-title">Weekly Overview ({{ getDate }})</h3>
 							<script>var period = weekDays[0] + " ~ " + weekDays[6]</script>
 							<p class="panel-subtitle">Period: <script>document.write(period)</script></p>
 						</div>
-						<div class="panel-body">
 
-							<div class="row">
-								<div class="col-md-3">
-									<div class="metric">
-										<p>
-											<span class="number"><script>document.write(targetKCal)</script></span>
-											<span class="title">권장 섭취 칼로리</span>
-										</p>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="metric">
-										<p>
-											<span class="number"><script>document.write(((kcalData/targetKCal)*100).toFixed(2) + "%")</script></span>
-											<span class="title">섭취한 칼로리 비율</span>
-										</p>
-									</div>
-								</div>
-								<div class="col-md-3">
-									<div class="panel">
-											<div class="panel-heading">
-												<h3 class="title" style="center;">섭취 칼로리 비율</h3>
-											</div>
-											<div class="panel-body">
-												<div class="card">
-													<div class="card-body">
-														<canvas id="myChart3"></canvas>
-													</div>
-													<div class="card-footer text-center text-dark">
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-							</div>
+
+
 
 							<div class="row">
 								<div class="col-md-3">
@@ -271,13 +222,11 @@
 										</p>
 									</div>
 								</div>
-									<div class="col-md-9">
-										<div id="demo-line-chart" class="ct-chart"></div>
-									</div>
+
 									<div class="col-md-3">
 										<div class="panel">
 											<div class="panel-heading">
-												<h3 class="title" style="center;">이번주 섭취 칼로리</h3>
+												<h3 class="title" style="center;">섭취 비율</h3>
 											</div>
 											<div class="panel-body">
 												<div class="card">
@@ -290,28 +239,49 @@
 											</div>
 										</div>
 									</div>
+                                    <div class="col-md-3">
+									<div class="panel">
+											<div class="panel-heading">
+												<h3 class="title" style="center;">섭취 칼로리 비율</h3>
+											</div>
+											<div class="panel-body">
+												<div class="card">
+													<div class="card-body">
+														<canvas id="myChart3"></canvas>
+													</div>
+													<div class="card-footer text-center text-dark">
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+                                        <div class="col-md-6">
+										<div id="demo-line-chart" class="ct-chart"></div>
+                                </div>
+							    </div>
+
+                            <div class="panel-body">
+							<div class="row">
+								<div class="col-md-3">
+									<div class="metric">
+										<p>
+											<span class="number"><script>document.write(targetKCal)</script></span>
+											<span class="title">권장 섭취 칼로리</span>
+										</p>
+									</div>
+								</div>
+								<div class="col-md-3">
+									<div class="metric">
+										<p>
+											<span class="number"><script>document.write(((kcalData/targetKCal)*100).toFixed(2) + "%")</script></span>
+											<span class="title">섭취한 칼로리 비율</span>
+										</p>
+									</div>
+								</div>
+
 								</div>
 							</div>
 						</div>
-					</div>
-					<div>
-						<form id="link" action="{% url 'FoodInfo:serviceByDate' %}" method="POST">
-							{% csrf_token %}
-							<input type="date" placeholder="날짜" id="my_date" name="getDate" />
-								{% csrf_token %}
-							<button id="Url" onclick="getUrl(this.form)">전송</button>
-<!--							<script>-->
-<!--								function getUrl(f) {-->
-<!--									// alert("aaa")-->
-<!--									// alert(f)-->
-<!--									var inputDate = String($("#my_date").val())-->
-<!--									var inputDate2 = Number(inputDate.substring(0,4) + inputDate.substring(5,7) + inputDate.substring(8,10))-->
-<!--									// alert(inputDate2)-->
-<!--									f.action = inputDate2-->
-<!--									f.submit()-->
-<!--								}-->
-<!--							</script>-->
-						  </form>
 					</div>
 					<div class="panel">
 						<div class="panel-heading">
@@ -370,8 +340,7 @@
 						</div>
 						<div class="panel-footer">
 							<div class="row">
-								<div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> today </span></div>
-								<div class="col-md-6 text-right"><a href="#" class="btn btn-primary">View All Purchases</a></div>
+								<div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> {{ getDate }} </span></div>
 							</div>
 						</div>
 					</div>

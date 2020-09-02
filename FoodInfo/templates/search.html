@@ -29,6 +29,11 @@
     padding: 15px 10px;
     background-color: #fff;
 }
+    .box1{
+        width:200px; margin: 0 auto
+    }
+
+
 </style>
 <body>
 <script>
@@ -120,7 +125,6 @@
 				<nav>
 					<ul class="nav">
 						<li><a href="{%url 'FoodInfo:service' %}" class=""><i class="lnr lnr-home"></i> <span>Service</span></a></li>
-						<li><a href="{%url 'FoodInfo:search' %}" class="active"><i class="lnr lnr-code"></i> <span>Search</span></a></li>
 						<li><a href="{%url 'FoodInfo:table' %}" class=""><i class="lnr lnr-dice"></i> <span>Tables</span></a></li>
 						<li><a href="{%url 'FoodInfo:mypage' %}" class=""><i class="lnr lnr-file-empty"></i> <span>MyPages</span> </a></li>
 					</ul>
@@ -172,14 +176,14 @@
 										<td>{{table.protein}}</td>
 										<td>{{table.fat}}</td>
 										<td>
-											#
+											{{ table.company }}
 										</td>
 									</tr>
 								{% endfor %}
 								</tbody>
 							</table>
 						</div>
-						<div>
+						<div class="box1">
 							{% if table_pages.has_previous %}
 								<form></form>
 								<form>

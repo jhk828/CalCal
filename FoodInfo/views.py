@@ -71,7 +71,7 @@ def search(request):
 
     if q:
         tables = tables.filter(name__icontains=q)
-        paginator = Paginator(tables, 10)
+        paginator = Paginator(tables, 20)
         page = request.GET.get('page')
         table_pages = paginator.get_page(page)
         return render(request, 'search.html', {'tables': tables, 'q': q, 'table_pages': table_pages,
