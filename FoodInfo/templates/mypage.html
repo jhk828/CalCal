@@ -64,6 +64,11 @@
 </style>
 <body>
 <script>
+	var kcalData = 0
+	{% for todayFood in todayTable %}
+		kcalData = kcalData + {{ todayFood.kcal }}
+	{% endfor %}
+
 	console.log("username", "{{authuser.username}}")
 	console.log("gender", "{{authuser.gender}}")
 	console.log("age", "{{authuser.age}}")
@@ -178,7 +183,8 @@
 												{{ user.weight }} kg <span>weight</span>
 											</div>
 											<div class="col-md-4 stat-item">
-												<span class="number"><script>document.write(kcalData.toFixed())</script></span> <span>Today kcal</span>
+												<span class="number"><script>document.write(kcalData.toFixed())</script></span>
+												<span>Today kcal</span>
 											</div>
 										</div>
 									</div>
