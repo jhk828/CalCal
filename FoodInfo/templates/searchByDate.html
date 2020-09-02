@@ -29,9 +29,20 @@
     padding: 15px 10px;
     background-color: #fff;
 }
+<<<<<<< HEAD
         .box1{
         width:200px; margin: 0 auto
     }
+=======
+    .box1{
+    	position : relative;
+        width: 280px;
+        left: 500px;
+}
+</style>
+<style type="text/css">
+	form{display:inline}
+>>>>>>> b319252... Paging CSS
 </style>
 <body>
 <script>
@@ -183,6 +194,7 @@
 						</div>
                         <div class="box1">
 						<div>
+							<div class="box1">
 							{% if table_pages.has_previous %}
 								<form></form>
 								<form>
@@ -201,6 +213,11 @@
 										Previous
 									</button>
 								</form>
+
+							{% else %}
+								<span style="display:inline-block; width:55.91px;"></span>
+								<span style="display:inline-block; width:73.89px;"></span>
+
 							{% endif %}
 
 								<span>{{ table_pages.number }}</span>
@@ -227,6 +244,7 @@
 									</button>
 								</form>
 							{% endif %}
+							</div>
 						</div>
                     </div>
 						<div class="panel-footer">

@@ -10,9 +10,16 @@
       <change beforePath="$PROJECT_DIR$/FoodInfo/templates/tables.html" beforeDir="false" afterPath="$PROJECT_DIR$/FoodInfo/templates/tables.html" afterDir="false" />
 =======
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FoodInfo/templates/search.html" beforeDir="false" afterPath="$PROJECT_DIR$/FoodInfo/templates/search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FoodInfo/templates/searchByDate.html" beforeDir="false" afterPath="$PROJECT_DIR$/FoodInfo/templates/searchByDate.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/FoodInfo/templates/service.html" beforeDir="false" afterPath="$PROJECT_DIR$/FoodInfo/templates/service.html" afterDir="false" />
+<<<<<<< HEAD
 >>>>>>> ee5551fe9bb4f5c40539eee8bd126628d510604a
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/FoodInfo/templates/serviceByDate.html" beforeDir="false" afterPath="$PROJECT_DIR$/FoodInfo/templates/serviceByDate.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/FoodInfo/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/FoodInfo/views.py" afterDir="false" />
+>>>>>>> b319252... Paging CSS
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -30,10 +30,14 @@
     background-color: #fff;
 }
     .box1{
-        width:200px; margin: 0 auto
+    	position : relative;
+        width: 280px;
+        left: 500px;
     }
 
-
+</style>
+<style type="text/css">
+	form{display:inline}
 </style>
 <body>
 <script>
@@ -183,7 +187,8 @@
 								</tbody>
 							</table>
 						</div>
-						<div class="box1">
+						<div>
+							<div class="box1">
 							{% if table_pages.has_previous %}
 								<form></form>
                                 <form class="pagination">
@@ -202,6 +207,11 @@
 										Previous
 									</button>
 								</form>
+
+							{% else %}
+								<span style="display:inline-block; width:55.91px;"></span>
+								<span style="display:inline-block; width:73.89px;"></span>
+
 							{% endif %}
                             <div>
 								<span>{{ table_pages.number }}</span>
@@ -218,7 +228,6 @@
 										Next
 									</button>
 								</form>
-
 								<form>
 									<button type="submit">
 										<input type="hidden" value="{{ baseDate }}" name="baseDate">
@@ -228,6 +237,7 @@
 									</button>
 								</form>
 							{% endif %}
+							</div>
 						</div>
 						<div class="panel-footer">
 							<div class="row">

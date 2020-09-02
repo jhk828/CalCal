@@ -25,6 +25,13 @@
 
 </head>
 <style>
+	.linechart-title{
+	position : relative;
+	top : 30px;
+	left : 300px;
+	right : 0px;
+}
+
 	.navbar-default .brand {
     float: left;
     padding: 15px 10px;
@@ -93,7 +100,6 @@
 			var targetKCal = 665.1 + (9.56 * weight) + (1.85 * height) - (4.68 * age)
 		}
 		var message = "권장 칼로리 " + targetKCal + "의 " +((kcalData/targetKCal)*100).toFixed(2) + "%를 섭취"
-		alert(message)
 
 	</script>
 	<!-- WRAPPER -->
@@ -275,6 +281,14 @@
 										<p>
 											<span class="number"><script>document.write(((kcalData/targetKCal)*100).toFixed(2) + "%")</script></span>
 											<span class="title">섭취한 칼로리 비율</span>
+										</p>
+									</div>
+								</div>
+								<div class="linechart-title">
+									<div class="panel-title">
+										<p>
+											<span>Weekly Overview</span>
+											<p class="panel-subtitle">Period: <script>document.write(period)</script></p>
 										</p>
 									</div>
 								</div>
