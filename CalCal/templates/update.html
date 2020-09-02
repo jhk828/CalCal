@@ -110,15 +110,6 @@
 							</ul>
 						</li>
 						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="lnr lnr-question-circle"></i> <span>Help</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">Basic Use</a></li>
-								<li><a href="#">Working With Data</a></li>
-								<li><a href="#">Security</a></li>
-								<li><a href="#">Troubleshooting</a></li>
-							</ul>
-						</li>
-						<li class="dropdown">
 							{% if user.is_authenticated %}
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/static/service/img/1.PNG" class="img-circle" alt="Avatar"> <span>{{ user.username }}</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
 							<ul class="dropdown-menu">
@@ -137,7 +128,6 @@
 				<nav>
 					<ul class="nav">
 						<li><a href="{%url 'FoodInfo:service' %}" class=""><i class="lnr lnr-home"></i> <span>Service</span></a></li>
-						<li><a href="{%url 'FoodInfo:search' %}" class=""><i class="lnr lnr-code"></i> <span>Search</span></a></li>
 						<li><a href="{%url 'FoodInfo:table' %}" class=""><i class="lnr lnr-dice"></i> <span>Tables</span></a></li>
 						<li><a href="{%url 'FoodInfo:mypage' %}" class="active"><i class="lnr lnr-file-empty"></i> <span>MyPages</span> </a></li>
 					</ul>
@@ -190,7 +180,7 @@
                                                 <div class="form-group">
                                                      <label for="id_username">Username</label>
                                                       <input type="text" name="username" value={{ user.username }} maxlength="40"
-                                                          class="form-control" placeholder="Username" title="" required id="id_username">
+                                                          class="form-control" placeholder="Username" title="" required id="id_username" readonly>
                                                  </div>
 
                                                 <div class="form-group">
@@ -225,7 +215,8 @@
                                                     </fieldset>
                                                 </div>
                                                 <br>
-                                                <input type="submit" value="수정 완료"/>
+                                            <div class="text-center"><input type="submit" class="btn-primary" value="수정 완료"/></div>
+
                                         </form>
 									</div>
 								<!-- END PROFILE DETAIL -->

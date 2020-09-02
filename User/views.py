@@ -5,7 +5,7 @@ from django.contrib.auth.forms import UserChangeForm
 from .models import *
 from django.contrib.auth.decorators import login_required
 from .forms import CustomUserChangeForm
-
+import datetime
 
 def signup(request):
     if request.method == "POST":
@@ -30,6 +30,8 @@ def signup(request):
 
 @login_required
 def update_user(request):
+    baseDate = datetime.date.today()
+    baseDate = str(baseDate)
     if request.method == 'POST':
         user_change_form = CustomUserChangeForm(request.POST, instance=request.user)
         if user_change_form.is_valid():
@@ -38,4 +40,4 @@ def update_user(request):
 
     else:
         user_change_form = CustomUserChangeForm(instance=request.user)
-    return render(request, 'update.html', {'user_change_form': user_change_form})
+    return render(request, 'update.html', {'user_change_form': user_change_form, 'baseDate':baseDate})

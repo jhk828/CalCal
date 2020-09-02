@@ -420,10 +420,11 @@
 		  type: 'pie',
 
 		  data: {
-			labels: ['섭취 칼로리','권장 칼로리'],
+            labels: ['섭취 칼로리 비율','전체'],
 			datasets: [{
 			  backgroundColor: ['yellow','Skyblue'],
-			  data: [kcalData, targetKCal],
+              data: [((kcalData/targetKCal)*100).toFixed(2), 100],
+
 			}]
 		  },
 		  options: {}

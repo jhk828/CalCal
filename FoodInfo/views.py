@@ -276,9 +276,10 @@ def updateByDate(request, food_id):
 def table(requset):
 
     baseDate = datetime.date.today()
+    baseDate = str(baseDate)
     todayTable = (UserTable.objects.all()).filter(
             date=baseDate)
-    return render(requset, 'tables.html', {'todayTable':todayTable})
+    return render(requset, 'tables.html', {'todayTable':todayTable, 'baseDate':baseDate})
 
 def mypage(request):
     authuser = User.objects.get(username=request.user)
