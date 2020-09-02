@@ -32,7 +32,7 @@
     .box1{
     	position : relative;
         width: 280px;
-        left: 500px;
+        left: 380px;
     }
 
 </style>
@@ -187,11 +187,12 @@
 								</tbody>
 							</table>
 						</div>
+						<div class="box1">
 						<div>
 							<div class="box1">
 							{% if table_pages.has_previous %}
 								<form></form>
-                                <form class="pagination">
+								<form>
 									<button type="submit">
 										<input type="hidden" value="{{ baseDate }}" name="baseDate">
 										<input type="hidden" value="{{ q }}" name="q" >
@@ -213,11 +214,11 @@
 								<span style="display:inline-block; width:73.89px;"></span>
 
 							{% endif %}
-                            <div>
+
 								<span>{{ table_pages.number }}</span>
 								<span>of</span>
 								<span>{{ table_pages.paginator.num_pages }}</span>
-                            </div>
+
 							{% if table_pages.has_next %}
 								<form></form>
 								<form>
@@ -228,17 +229,19 @@
 										Next
 									</button>
 								</form>
+
 								<form>
 									<button type="submit">
 										<input type="hidden" value="{{ baseDate }}" name="baseDate">
 										<input type="hidden" value="{{ q }}" name="q" >
 										<input type="hidden" value="{{ table_pages.paginator.num_pages }}" name="page" >
-										<a>Last</a>
+										Last
 									</button>
 								</form>
 							{% endif %}
 							</div>
 						</div>
+                    </div>
 						<div class="panel-footer">
 							<div class="row">
 								<div class="col-md-6"><span class="panel-note"><i class="fa fa-clock-o"></i> Last 24 hours</span></div>
