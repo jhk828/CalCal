@@ -4,7 +4,6 @@ from django.core.paginator import Paginator
 import datetime
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from User.forms import UserChangeForm
 # Create your views here.
 @login_required(login_url='User:login')
 ## service page는 오늘 데이터들을 처리
