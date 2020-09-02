@@ -85,11 +85,11 @@
 		var height = "{{authuser.height}}"
 		var weight = "{{authuser.weight}}"
 
-		if (gender == 1) {
+	    if ((gender == 'M') || (gender == 'Male')) {
 				var targetKCal = 66.7 + (13.75 * weight) + (5 * height) - (6.76 * age)
 
 		}
-		else if (gender == 0) {
+		else if ((gender == 'F') || (gender == 'Female')) {
 			var targetKCal = 665.1 + (9.56 * weight) + (1.85 * height) - (4.68 * age)
 		}
 		var message = "권장 칼로리 " + targetKCal + "의 " +((kcalData/targetKCal)*100).toFixed(2) + "%를 섭취"
