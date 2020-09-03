@@ -134,20 +134,6 @@
 				</form>
 				<div id="navbar-menu">
 					<ul class="nav navbar-nav navbar-right">
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle icon-menu" data-toggle="dropdown">
-								<i class="lnr lnr-alarm"></i>
-								<span class="badge bg-danger">5</span>
-							</a>
-							<ul class="dropdown-menu notifications">
-								<li><a href="#" class="notification-item"><span class="dot bg-warning"></span>System space is almost full</a></li>
-								<li><a href="#" class="notification-item"><span class="dot bg-danger"></span>You have 9 unfinished tasks</a></li>
-								<li><a href="#" class="notification-item"><span class="dot bg-success"></span>Monthly report is available</a></li>
-								<li><a href="#" class="notification-item"><span class="dot bg-warning"></span>Weekly meeting in 1 hour</a></li>
-								<li><a href="#" class="notification-item"><span class="dot bg-success"></span>Your request has been approved</a></li>
-								<li><a href="#" class="more">See all notifications</a></li>
-							</ul>
-						</li>
                         <div class="nav navbar-nav navbar-right">
 						<form class="navbar-form navbar-left"action="{% url 'FoodInfo:serviceByDate' %}" id="link" method="POST">
 							{% csrf_token %}
@@ -379,13 +365,13 @@
 
 	<script>
 	$(function() {
+	    // 일주일간 칼로리 변동 (line chart)
 		var data, options;
 			var data = {
 				labels: weekDays,
 				series: [weekCal],
 		};
 
-		// line chart
 		options = {
 
 			height: "300px",
@@ -398,7 +384,7 @@
 
 		new Chartist.Line('#demo-line-chart', data, options);
 
-		// 오늘의 섭취 영양소 비율 (파이차트)
+		// 오늘의 섭취 영양소 비율 (pie chart)
 		var ctx1 = document.getElementById("myChart2");
 		console.log(ctx1)
 		var myPieChart = new Chart(ctx1, {
@@ -408,24 +394,23 @@
 			labels: ['탄수화물','단백질','지방'],
 			datasets: [{
 			  backgroundColor: ['SteelBlue','yellow','Skyblue'],
-			  data: [carboData, proteinData, fatData],
+			  data: [carboData.toFixed(2), proteinData.toFixed(2), fatData.toFixed(2)],
 			}]
 		  },
 		  options: {}
 		});
 
-		// 칼로리 섭취 비율 (파이차트)
+		// 칼로리 섭취 비율 (bar chart)
 		var ctx2 = document.getElementById("myChart3");
 		console.log(ctx2)
 		var myPieChart = new Chart(ctx2, {
-		  type: 'pie',
-
+		  type: 'bar',
 		  data: {
-            labels: ['섭취 칼로리 비율','전체'],
+            labels: ['섭취 비율','전체'],
 			datasets: [{
+              label: '섭취 칼로리 비율',
 			  backgroundColor: ['yellow','Skyblue'],
               data: [((kcalData/targetKCal)*100).toFixed(2), 100],
-
 			}]
 		  },
 		  options: {}
