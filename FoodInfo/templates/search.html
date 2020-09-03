@@ -34,28 +34,6 @@
 	form{display:inline}
 </style>
 <body>
-<script>
-    var carboData = 0
-    var proteinData = 0
-    var fatData = 0
-    var kcalWeekArray = new Array(0, 0, 0, 0, 0, 0, 0);
-    var weekData = [0, 0, 0, 0, 0, 0, 0]
-
-    {% for todayFood in todayTable %}
-        carboData = carboData + {{ todayFood.carbo }}
-        proteinData = proteinData + {{ todayFood.protein }}
-        fatData = fatData + {{ todayFood.fat }}
-    {% endfor %}
-
-    {% for weekFood in weekTable %}
-        kcalWeekArray[{{weekFood.date_1.weekday}}] += {{ weekFood.kcal }}
-    {% endfor %}
-
-     for (var i=0; i<kcalWeekArray.length; i++) {
-              weekData[i] += kcalWeekArray[i]
-     }
-
-</script>
 	<!-- WRAPPER -->
 	<b id="wrapper">
 		<!-- NAVBAR -->
@@ -143,11 +121,11 @@
 									<tr>
 										<th>음식 체크</th>
 										<th>음식 이름</th>
-										<th>중량</th>
-										<th>칼로리</th>
-										<th>탄수화물</th>
-										<th>단백질</th>
-										<th>지방</th>
+										<th>중량(g/ml)</th>
+										<th>칼로리(g)</th>
+										<th>탄수화물(g)</th>
+										<th>단백질(g)</th>
+										<th>지방(g)</th>
 										<th>회사</th>
 									</tr>
 								</thead>

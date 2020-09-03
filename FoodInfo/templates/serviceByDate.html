@@ -41,7 +41,6 @@
 <body>
 	<script>
 		const DateforChart = new Date("{{DateforChart}}");
-		console.log(DateforChart)
 		var kcalData = 0
 		var carboData = 0
 		var proteinData = 0
@@ -63,29 +62,18 @@
 		  weekDays[5 - i] = DateforChart.getMonth() + 1 + "/" + DateforChart.getDate();
 		}
 
-		console.log("weekDays: " , weekDays);
-
 		var calDict = {};
 		for (var i = 0; i < weekDays.length; i++) {
 			calDict[weekDays[i]] = 0;
 		}
 
 		 {% for weekFood in weekTable %}
-		   console.log(String( {{ weekFood.date.month }} ) + "/" + String( {{ weekFood.date.day }}));
 		 if (calDict.hasOwnProperty(String({{ weekFood.date.month }}) + "/" + String({{ weekFood.date.day }}))) {
 			calDict[String( {{ weekFood.date.month }} ) + "/" + String( {{ weekFood.date.day }})] += {{ weekFood.kcal }};
 		 }
 		{% endfor %}
 
-	   console.log("calDict: ", calDict);
-
-	   var weekCal = Object.values(calDict);
-	   console.log("weekCal : ", weekCal);
-
-	    console.log("gender", "{{authuser.gender}}")
-		console.log("age", "{{authuser.age}}")
-		console.log("height", "{{authuser.height}}")
-		console.log("weight", "{{authuser.weight}}")
+	    var weekCal = Object.values(calDict);
 
 		var gender = "{{authuser.gender}}"
 		var age = "{{authuser.age}}"
@@ -100,6 +88,10 @@
 			var targetKCal = 665.1 + (9.56 * weight) + (1.85 * height) - (4.68 * age)
 		}
 		var message = "권장 칼로리 " + targetKCal + "의 " +((kcalData/targetKCal)*100).toFixed(2) + "%를 섭취"
+
+		var carboRate = ( carboData/(carboData + proteinData + fatData) * 100 ).toFixed(2)
+		var proteinRate = ( proteinData/(carboData + proteinData + fatData) * 100 ).toFixed(2)
+		var fatRate = ( fatData/(carboData + proteinData + fatData) * 100 ).toFixed(2)
 
 	</script>
 	<!-- WRAPPER -->
@@ -182,7 +174,7 @@
 										<span class="icon"><i class="fa fa-download"></i></span>
 										<p>
 											<span class="number"><script>document.write(kcalData.toFixed(2))</script></span>
-											<span class="title">칼로리</span>
+											<span class="title">칼로리(kcal)</span>
 										</p>
 									</div>
 								</div>
@@ -191,7 +183,7 @@
 										<span class="icon"><i class="fa fa-shopping-bag"></i></span>
 										<p>
 											<span class="number"><script>document.write(carboData.toFixed(2))</script></span>
-											<span class="title">탄수화물</span>
+											<span class="title">탄수화물(g)</span>
 										</p>
 									</div>
 								</div>
@@ -200,7 +192,7 @@
 										<span class="icon"><i class="fa fa-eye"></i></span>
 										<p>
 											<span class="number"><script>document.write(proteinData.toFixed(2))</script></span>
-											<span class="title">단백질</span>
+											<span class="title">단백질(g)</span>
 										</p>
 									</div>
 								</div>
@@ -209,7 +201,7 @@
 										<span class="icon"><i class="fa fa-bar-chart"></i></span>
 										<p>
 											<span class="number"><script>document.write(fatData.toFixed(2))</script></span>
-											<span class="title">지방</span>
+											<span class="title">지방(g)</span>
 										</p>
 									</div>
 								</div>
@@ -217,7 +209,7 @@
 									<div class="col-md-3">
 										<div class="panel">
 											<div class="panel-heading">
-												<h3 class="title" style="center;">섭취 비율</h3>
+												<h3 class="title" style="center;">영양소 섭취 비율(%)</h3>
 											</div>
 											<div class="panel-body">
 												<div class="card">
@@ -257,15 +249,15 @@
 									<div class="metric">
 										<p>
 											<span class="number"><script>document.write(targetKCal.toFixed(2))</script></span>
-											<span class="title">권장 섭취 칼로리</span>
+											<span class="title">권장 섭취 칼로리(kcal)</span>
 										</p>
 									</div>
 								</div>
 								<div class="col-md-3">
 									<div class="metric">
 										<p>
-											<span class="number"><script>document.write(((kcalData/targetKCal)*100).toFixed(2) + "%")</script></span>
-											<span class="title">섭취한 칼로리 비율</span>
+											<span class="number"><script>document.write(((kcalData/targetKCal)*100).toFixed(2))</script></span>
+											<span class="title">섭취 칼로리 비율(%)</span>
 										</p>
 									</div>
 								</div>
@@ -295,13 +287,13 @@
 									<tr>
 										<th></th>
 										<th>음식 이름</th>
-										<th>중량</th>
-										<th>칼로리</th>
-										<th>탄수화물</th>
-										<th>단백질</th>
-										<th>지방</th>
+										<th>중량(g/ml)</th>
+										<th>칼로리(kcal)</th>
+										<th>탄수화물(g)</th>
+										<th>단백질(g)</th>
+										<th>지방(g)</th>
 										<th>섭취량</th>
-										<th>섭취량 설정</th>
+										<th>섭취량 설정 (1.0 = 1회 제공량)</th>
 										<th></th>
 									</tr>
 								</thead>
@@ -385,7 +377,6 @@
 
 		// 오늘의 섭취 영양소 비율 (pie chart)
 		var ctx1 = document.getElementById("myChart2");
-		console.log(ctx1)
 		var myPieChart = new Chart(ctx1, {
 		  type: 'pie',
 
@@ -393,7 +384,7 @@
 			labels: ['탄수화물','단백질','지방'],
 			datasets: [{
 			  backgroundColor: ['SteelBlue','yellow','Skyblue'],
-			  data: [carboData.toFixed(2), proteinData.toFixed(2), fatData.toFixed(2)],
+			  data: [carboRate, proteinRate, fatRate],
 			}]
 		  },
 		  options: {}
@@ -401,7 +392,6 @@
 
 		// 칼로리 섭취 비율 (bar chart)
 		var ctx2 = document.getElementById("myChart3");
-		console.log(ctx2)
 		var myPieChart = new Chart(ctx2, {
 		  type: 'pie',
 
