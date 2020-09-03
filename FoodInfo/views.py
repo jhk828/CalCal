@@ -77,7 +77,7 @@ def search(request):
         return render(request, 'search.html', {'tables': tables, 'q': q, 'table_pages': table_pages,
                                                'baseDate': baseDate})
     else:
-        return render(request, 'search.html')
+        return render(request, 'search.html', {'baseDate': baseDate})
 
 
 def delete(request, food_id):
@@ -191,7 +191,7 @@ def searchByDate(request):
         table_pages = paginator.get_page(page)
         return render(request, 'searchByDate.html', {'tables': tables, 'q': q, 'table_pages': table_pages, 'getDate': getDate})
     else:
-        return render(request, 'searchByDate.html')
+        return render(request, 'searchByDate.html', {'getDate': getDate})
 
 
 # deleteByDate는 기존 delete처럼 redirect를 쓰면
