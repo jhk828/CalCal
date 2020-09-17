@@ -403,7 +403,11 @@
               data: [kcalData, targetKCal.toFixed(2)],
 			}]
 		  },
-		  options: {}
+		  options: { responsive: false,
+        			 scales: {yAxes: [{
+							  ticks: { beginAtZero: true,}
+								        }]
+								        }}
 		});
 
 	});
