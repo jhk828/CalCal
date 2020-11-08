@@ -15,6 +15,8 @@ def service(request):
 
     baseDate = datetime.date.today()
     todayTable = (UserTable.objects.all()).filter(
+
+
             date=baseDate, authuser_id=authuser)
 
     weekTable = (UserTable.objects.all()).filter(
