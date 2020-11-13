@@ -46,3 +46,7 @@
 # 개선점
 
 * 추후 작성
+
+# 서버 배포
+
+* http://calcal.pythonanywhere.com/
