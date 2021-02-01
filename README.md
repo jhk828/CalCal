@@ -1,3 +1,5 @@
+
+
 # CalCal project
 
 * 사용자에게 정확한 식품 영양 성분 정보를 제공하기 위한 Web Application
@@ -28,25 +30,47 @@
   
 
 * 프로젝트 수행 도구
-  * Django
+  * Python/Django
   * Pycharm
   * SQL
 
 
 
+# 구조
+
+![structure](./image/structure.jpeg)
+
+
+
 # 주요 기능
 
-* 식품 검색 및 해당 식품의 영양 성분 정보 제공 기능
-* 섭취한 식품 영양 성분에 대한 일별통계 및 주간통계를 시각화
-* 과거 섭취 이력 조회 및 수정 기능
-* 권장 섭취 칼로리 미달 시 알림 제공(구현 예정)
+1. 식품 검색 및 해당 식품의 영양 성분 정보 제공 기능
+
+![search_page](./image/search_page.jpeg)
+
+2. 섭취한 식품 영양 성분에 대한 일별통계 및 주간통계를 시각화
+
+![service_page](./image/service_page.jpeg)
+
+3. 오늘에 한해 user들의 섭취 목록 확인 기능
+
+![user_eat_page](./image/user_eat_page.jpeg)
+
+4. 신체 정보 수정 및 신체 정보 수정에 따른 권장 섭취 칼로리 연동
+
+![user_eat_page](./image/user_eat_page.jpeg)
+
+5. 과거 섭취 이력 조회 및 수정 기능
 
 
 
 # 개선점
 
-* 추후 작성
+* 권장 섭취 칼로리 미달 시 알림 제공
 
-# 서버 배포
+
+
+# 서버 배포 및 PPT 파일
 
 * http://calcal.pythonanywhere.com/
+* [PPT](./CalCal_김주현,서광채,한현도.pptx)
