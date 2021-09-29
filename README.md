@@ -72,5 +72,5 @@
 
 # 서버 배포 및 PPT 파일
 
-* calcal2020.herokuapp.com/
+* https://calcal2020.herokuapp.com
 * [PPT](./CalCal_김주현,서광채,한현도.pptx)
